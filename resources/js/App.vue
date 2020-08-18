@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
     <nav class="navbar navbar-primary bg-primary">
       <span class="navbar-brand">Simple Sales</span>
     </nav>
@@ -45,7 +45,7 @@
 
         <!-- Main Contents -->
         <div class="main col-md-9 col-lg-10 text-center">
-          main
+          <router-view/>
         </div>
       </div>
     </div>
