@@ -14,8 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function(){
+    Route::get('/user', function(Request $request){
+        return $request->user();
+    });
+    // 取引先
+    Route::get('/customer', 'CustomerController@index');
+    Route::post('/customer', 'CustomerController@create');
+    Route::get('/customer/search', 'CustomerController@search');
 });
  
 Route::post('/login', 'LoginController@login');

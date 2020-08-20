@@ -51,7 +51,7 @@
           </button>
           <ul class="navbar-nav collapse show" id="collapseMaster">
             <li class="nav-item">
-              <router-link to="/">
+              <router-link to="/customer">
                 <i class="fas fa-building content-icon"></i><span class="content-link">取引先</span>
               </router-link>
             </li>
@@ -113,7 +113,11 @@ export default {
     getUser() {
       axios.get('/api/user').then(response => {
         this.user = response.data;
-      });
+      })
+      .catch(ex => {
+        console.log(ex.response);
+      })
+      ;
     },
     logout() {
       axios.post('/api/logout').then(response => {
