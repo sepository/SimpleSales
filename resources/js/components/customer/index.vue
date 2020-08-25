@@ -34,7 +34,7 @@
                 <router-link :to="{name: 'customer.edit', params: {customerId: customer.id}}">
                   <button class="btn btn-primary mx-1">編集</button>
                 </router-link>
-                <button class="btn btn-danger mx-1">削除</button>
+                <button class="btn btn-danger mx-1" @click="confirmDeleteCustomer(customer.id, customer.name)">削除</button>
               </td>
             </tr>
           </tbody>
@@ -52,12 +52,18 @@ export default {
       keyword: ""
     }
   },
+
   mounted() {
-    axios.get('/api/customer').then(res => {
-      this.customers = res.data;
-    });
+    this.getCustomer();
   },
+
   methods: {
+    getCustomer() {
+      axios.get('/api/customer').then(res => {
+        this.customers = res.data;
+      });
+    },
+
     searchCustomer() {
       axios.get('/api/customer/search', {
         params: { 
@@ -68,6 +74,18 @@ export default {
         console.log(res);
         this.customers = res.data;
       })
+    },
+
+    deleteCustomer(id) {
+      axios.delete('/api/customer/' + id).then(res => {
+        this.getCustomer();
+      });
+    },
+
+    confirmDeleteCustomer(id, name) {
+      if (confirm(name + 'を削除してもよろしいでしょうか？')) {
+        this.deleteCustomer(id);
+      }
     }
   }
 }

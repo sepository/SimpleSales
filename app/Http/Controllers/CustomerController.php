@@ -51,4 +51,12 @@ class CustomerController extends Controller
 
         return $customer;
     }
+
+    // 削除
+    public function destroy(Customer $customer)
+    {
+        $customer->delete();
+
+        return $customer;
+    }
 }
