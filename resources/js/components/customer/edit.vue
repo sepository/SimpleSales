@@ -12,24 +12,24 @@
         <div class="card">
           <div class="card-header">取引先登録</div>
           <div class="card-body">
-            <form @submit.prevent="createCustomer">
+            <form @submit.prevent="updateCustomer">
               <div class="form-group text-left">
                 <label for="name">名称</label>
-                <input id="name" class="form-control" type="text" v-model="name">
+                <input id="name" class="form-control" type="text" v-model="customer.name">
               </div>
               <div class="form-group text-left">
                 <label for="postal_code">郵便番号</label>
-                <input id="postal_code" class="form-control" type="text" v-model="postal_code">
+                <input id="postal_code" class="form-control" type="text" v-model="customer.postal_code">
               </div>
               <div class="form-group text-left">
                 <label for="address">住所・宛先</label>
-                <textarea id="address" class="form-control" type="text" rows="3" v-model="address"/>
+                <textarea id="address" class="form-control" type="text" rows="3" v-model="customer.address"/>
               </div>
               <div class="form-group text-left">
                 <label for="tel_no">電話番号</label>
-                <input id="tel_no" class="form-control" type="text" v-model="tel_no">
+                <input id="tel_no" class="form-control" type="text" v-model="customer.tel_no">
               </div>
-              <button class="btn btn-primary" type="submit">登録</button>
+              <button class="btn btn-primary" type="submit">保存</button>
             </form>
           </div>
         </div>
@@ -40,25 +40,35 @@
 
 <script>
 export default {
+  props: {
+    customerId: String
+  },
+
   data() {
     return {
-      name: "",
-      postal_code: "",
-      address: "",
-      tel_no: ""
+      customer: {}
     }
   },
+
   methods: {
-    createCustomer() {
-      axios.post('/api/customer', {
-        name: this.name,
-        postal_code: this.postal_code,
-        address: this.address,
-        tel_no: this.tel_no
-      }).then(res => {
+    getCustomer() {
+      axios.get('/api/customer/' + this.customerId).then(res => {
+        this.customer = res.data;
+      });
+    },
+
+    updateCustomer() {
+      axios.put('/api/customer/' + this.customerId, this.customer).then(res => {
         this.$router.push({name: 'customer.index'});
       })
+      .catch(ex => {
+        console.log(ex);
+      });
     }
+  },
+
+  mounted() {
+    this.getCustomer();
   }
 }
 </script>

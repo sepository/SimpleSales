@@ -37,4 +37,18 @@ class CustomerController extends Controller
         }
         return $customers->get();
     }
+
+    // 個別取得
+    public function show(Customer $customer)
+    {
+        return $customer;
+    }
+
+    // 更新
+    public function update(Request $request, Customer $customer)
+    {
+        $customer->update($request->all());
+
+        return $customer;
+    }
 }

@@ -30,8 +30,10 @@
             <tr v-for="customer in customers" v-bind:key="customer.id">
               <td>{{ customer.name }}</td>
               <td>{{ customer.address }}</td>
-              <td>
-                <button class="btn btn-primary mx-1">編集</button>
+              <td class="text-right">
+                <router-link :to="{name: 'customer.edit', params: {customerId: customer.id}}">
+                  <button class="btn btn-primary mx-1">編集</button>
+                </router-link>
                 <button class="btn btn-danger mx-1">削除</button>
               </td>
             </tr>

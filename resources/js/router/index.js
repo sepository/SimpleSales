@@ -7,14 +7,16 @@ import Login          from '../components/Login'
 import Dashboard      from '../components/Dashboard'
 import CustomerIndex  from '../components/customer/index'
 import CustomerNew    from '../components/customer/new'
+import CustomerEdit   from '../components/customer/edit'
 
 const router = new Router({
   mode: 'history',
   routes: [
-    { path: '/login', name: 'login', component: Login, meta: { guestOnly: true } },
-    { path: '/', name: 'dashboard', component: Dashboard, meta: { authOnly: true } },
-    { path: '/customer', name: 'customer.index', component: CustomerIndex, meta: { authOnly: true } },
-    { path: '/customer/new', name: 'customer.new', component: CustomerNew, meta: { authOnly: true } }
+    { path: '/login',                     name: 'login',          component: Login,         meta: { guestOnly: true } },
+    { path: '/',                          name: 'dashboard',      component: Dashboard,     meta: { authOnly: true } },
+    { path: '/customer',                  name: 'customer.index', component: CustomerIndex, meta: { authOnly: true } },
+    { path: '/customer/new',              name: 'customer.new',   component: CustomerNew,   meta: { authOnly: true } },
+    { path: '/customer/edit/:customerId', name: 'customer.edit',  component: CustomerEdit,  meta: { authOnly: true }, props: true }
   ]
 })
 

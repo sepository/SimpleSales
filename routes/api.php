@@ -22,6 +22,8 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/customer', 'CustomerController@index');
     Route::post('/customer', 'CustomerController@create');
     Route::get('/customer/search', 'CustomerController@search');
+    Route::get('/customer/{customer}', 'CustomerController@show');
+    Route::put('/customer/{customer}', 'CustomerController@update');
 });
  
 Route::post('/login', 'LoginController@login');
