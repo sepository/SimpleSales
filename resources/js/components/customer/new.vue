@@ -16,6 +16,9 @@
               <div class="form-group text-left">
                 <label for="name">名称</label>
                 <input id="name" class="form-control" type="text" v-model="name">
+                <div class="alert alert-danger" role="alert" v-if="errors.name">
+                  {{ errors.name[0] }}
+                </div>
               </div>
               <div class="form-group text-left">
                 <label for="postal_code">郵便番号</label>
@@ -45,9 +48,11 @@ export default {
       name: "",
       postal_code: "",
       address: "",
-      tel_no: ""
+      tel_no: "",
+      errors: []
     }
   },
+
   methods: {
     createCustomer() {
       axios.post('/api/customer', {
@@ -57,7 +62,9 @@ export default {
         tel_no: this.tel_no
       }).then(res => {
         this.$router.push({name: 'customer.index'});
-      })
+      }).catch(ex => {
+        this.errors = ex.response.data.errors;
+      });
     }
   }
 }

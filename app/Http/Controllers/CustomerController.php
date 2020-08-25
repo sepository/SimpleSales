@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Customer;
+use App\Http\Requests\CustomerRequest;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -14,7 +15,7 @@ class CustomerController extends Controller
     }
 
     // 新規登録
-    public function create(Request $request)
+    public function create(CustomerRequest $request)
     {
         $customer = new Customer();
         $customer->name = $request->name;
@@ -45,7 +46,7 @@ class CustomerController extends Controller
     }
 
     // 更新
-    public function update(Request $request, Customer $customer)
+    public function update(CustomerRequest $request, Customer $customer)
     {
         $customer->update($request->all());
 

@@ -16,6 +16,9 @@
               <div class="form-group text-left">
                 <label for="name">名称</label>
                 <input id="name" class="form-control" type="text" v-model="customer.name">
+                <div class="alert alert-danger" role="alert" v-if="errors.name">
+                  {{ errors.name[0] }}
+                </div>
               </div>
               <div class="form-group text-left">
                 <label for="postal_code">郵便番号</label>
@@ -46,7 +49,8 @@ export default {
 
   data() {
     return {
-      customer: {}
+      customer: {},
+      errors: []
     }
   },
 
@@ -62,7 +66,7 @@ export default {
         this.$router.push({name: 'customer.index'});
       })
       .catch(ex => {
-        console.log(ex);
+        this.errors = ex.response.data.errors;
       });
     }
   },
