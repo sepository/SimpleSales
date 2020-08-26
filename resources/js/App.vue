@@ -110,15 +110,16 @@ export default {
     isLoggedIn() {
       return localStorage.getItem("auth");
     },
+
     getUser() {
       axios.get('/api/user').then(response => {
         this.user = response.data;
       })
       .catch(ex => {
-        console.log(ex.response);
-      })
-      ;
+        this.logout();
+      });
     },
+    
     logout() {
       axios.post('/api/logout').then(response => {
         console.log(response);
