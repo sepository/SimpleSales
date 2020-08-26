@@ -1,35 +1,40 @@
 <template>
   <div>
-    <h1>取引先</h1>
-    <div class="row justify-content-center">
-      <div class="col-md-8 col-lg-6">
+    <div class="d-flex bd-highlight">
+      <h1 class="bd-highlight mx-auto">取引先</h1>
+    </div>
+    <div class="d-flex bd-highlight">
+      <div class="bd-highlight">
         <form class="form-inline" @submit.prevent="searchCustomer">
-          <div class="form-group">
-            <input class="form-control ml-1" id="keyword"  type="text" v-model="keyword">
-            <button class="btn btn-primary m-1" type="submit">検索</button>
+          <label class="sr-only" for="keyword">Username</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">検索</div>
+            </div>
+            <input class="form-control" id="keyword" type="text" v-model="keyword">
           </div>
         </form>
       </div>
-      <div class="col-md-2 col-lg-2 text-right">
-        <router-link :to="{name: 'customer.new'}">
+      <div class="bd-highlight ml-auto">
+        <router-link :to="{name: 'customer.new'}" >
           <button class="btn btn-primary m-1">新規</button>
         </router-link>
       </div>
     </div>
-    <div class="row justify-content-center">
-      <div class="col-md-10 col-lg-8">
-        <table class="table table-hover">
+    <div class="card p-0 mt-2">
+      <div class="table-responsive">
+        <table class="table table-hover m-0">
           <thead>
-            <tr>
-              <th scope="col">名称</th>
-              <th scope="col">住所</th>
-              <th scope="col"></th>
+            <tr class="table-secondary">
+              <th scope="col" class="border-0">名称</th>
+              <th scope="col" class="border-0">住所</th>
+              <th scope="col" class="border-0"></th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="customer in customers" v-bind:key="customer.id">
-              <td>{{ customer.name }}</td>
-              <td>{{ customer.address }}</td>
+              <td class="align-middle">{{ customer.name }}</td>
+              <td class="align-middle">{{ customer.address }}</td>
               <td class="text-right">
                 <router-link :to="{name: 'customer.edit', params: {customerId: customer.id}}">
                   <button class="btn btn-primary mx-1">編集</button>

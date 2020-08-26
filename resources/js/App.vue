@@ -54,7 +54,7 @@
         </nav>
 
         <!-- Main Contents -->
-        <div class="main text-center mt-3" v-bind:class="contentClass">
+        <div class="main mt-3 px-5" v-bind:class="contentClass">
           <router-view/>
         </div>
       </div>
