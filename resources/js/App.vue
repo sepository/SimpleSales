@@ -27,40 +27,30 @@
         </span>
       </button>
 
-      <div class="row w-100">
+      <div class="row w-100 mx-0">
         <!-- Side Menu -->
-        <nav class="side col-md-3 col-lg-2 bg-secondary p-5" v-if="isMenuExpanded && isAuthenticated">
-          <button class="btn btn-primary text-left w-100 pl-4 mb-2" type="button" data-toggle="collapse" data-target="#collapseWork" aria-expanded="true" aria-controls="collapseWork">
-            <span>業務</span>
-          </button>
-          <ul class="navbar-nav collapse show" id="collapseWork">
-            <li class="nav-item">
-              <router-link to="/">
-              準備中...
-              </router-link>
-            </li>
-            <li class="nav-item">
-              <router-link to="/">
-              準備中...
-              </router-link>
-            </li>
-          </ul>
+        <nav class="side col-md-3 col-lg-2 bg-secondary pt-5 px-3" v-if="isMenuExpanded && isAuthenticated">
+          <div class="list-group m-0">
+            <button :class="classCollapseBtn" type="button" data-toggle="collapse" data-target="#collapseWork" aria-expanded="true" aria-controls="collapseWork">
+              <i class="menu-icon fas fa-bars"></i><span class="menu-category">業務</span>
+            </button>
 
-          <button class="btn btn-primary text-left w-100 pl-4 mb-2" type="button" data-toggle="collapse" data-target="#collapseMaster" aria-expanded="true" aria-controls="collapseMaster">
-            <span>マスタデータ</span>
-          </button>
-          <ul class="navbar-nav collapse show" id="collapseMaster">
-            <li class="nav-item">
-              <router-link to="/customer">
-                <i class="fas fa-building content-icon"></i><span class="content-link">取引先</span>
+            <div class="collapse show" id="collapseWork">
+              <router-link v-for="menu in menuWorks" v-bind:key="menu.name" :to="menu.path" :class="classMenu">
+                <i class="menu-icon fas" :class="menu.icon"></i><span class="menu-text">{{ menu.name }}</span>
               </router-link>
-            </li>
-            <li class="nav-item">
-              <router-link to="/">
-                <i class="fas fa-book content-icon"></i><span class="content-link">商品</span>
+            </div>
+
+            <button :class="classCollapseBtn" type="button" data-toggle="collapse" data-target="#collapseMaster" aria-expanded="true" aria-controls="collapseMaster">
+              <i class="menu-icon fas fa-bars"></i><span class="menu-category">マスタデータ</span>
+            </button>
+
+            <div class="collapse show" id="collapseMaster">
+              <router-link v-for="menu in menuMasters" v-bind:key="menu.name" :to="menu.path" :class="classMenu">
+                <i class="menu-icon fas" :class="menu.icon"></i><span class="menu-text">{{ menu.name }}</span>
               </router-link>
-            </li>
-          </ul>
+            </div>
+          </div>
         </nav>
 
         <!-- Main Contents -->
@@ -78,7 +68,28 @@ export default {
     return {
       user: "",
       isMenuExpanded: true,
-      isAuthenticated: false
+      isAuthenticated: false,
+      classCollapseBtn: 'list-group-item list-group-item-action list-group-item-primary btn text-left m-0 border-top-0 border-bottom-0 rounded-0',
+      classMenu: 'list-group-item list-group-item-action list-group-item-secondary pl-5',
+      menuWorks: [
+        {
+          name: '準備中...',
+          path: '/',
+          icon: 'fa-wrench'
+        }
+      ],
+      menuMasters: [
+        {
+          name: '取引先',
+          path: '/customer',
+          icon: 'fa-building'
+        },
+        {
+          name: '商品',
+          path: '/',
+          icon: 'fa-book'
+        }
+      ]
     }
   },
   mounted() {
@@ -119,7 +130,7 @@ export default {
         this.logout();
       });
     },
-    
+
     logout() {
       axios.post('/api/logout').then(response => {
         console.log(response);
@@ -136,9 +147,6 @@ export default {
 </script>
 
 <style scoped>
-  a {
-    color: #fff;
-  }
   .navbar {
     height: 60px;
   }
@@ -147,24 +155,21 @@ export default {
     font-weight: bold;
     font-size: 20px;
   }
-  .navbar-nav {
-    margin-bottom: 20px;
-  }
-  .nav-item {
-    margin: 5px 0px 5px 30px;
-  }
-  .content-icon {
-    font-size: 16px;
-  }
-  .content-link {
-    margin-left: 10px;
-    font-size: 14px;
-  }
   .side-btn {
     position: absolute;
     z-index: 1;
   }
   .side {
     height: calc(100vh - 60px);
+  }
+  .menu-category {
+    font-size: 16px;
+  }
+  .menu-icon {
+    font-size: 18px;
+    margin-right: 10px;
+  }
+  .menu-text {
+    font-size: 16px;
   }
 </style>
