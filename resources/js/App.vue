@@ -86,7 +86,7 @@ export default {
         },
         {
           name: '商品',
-          path: '/',
+          path: '/product',
           icon: 'fa-book'
         }
       ]
