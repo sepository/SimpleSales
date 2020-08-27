@@ -24,21 +24,28 @@ class CustomerRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required'
+            'name'          => 'required',
+            'postal_code'   => 'max:10',
+            'address'       => 'max:300',
+            'tel_no'        => 'max:20'
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required' => ':attributeは必須項目です。'
+            'required'  => ':attributeは必須項目です。',
+            'max'       => ':attributeは:max文字以内にしてください。'
         ];
     }
 
     public function attributes()
     {
         return [
-            'name' => '名称'
+            'name'          => '名称',
+            'postal_code'   => '郵便番号',
+            'address'       => '住所・宛先',
+            'tel_no'        => '電話番号'
         ];
     }
 }
