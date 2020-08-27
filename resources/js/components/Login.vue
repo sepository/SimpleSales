@@ -1,28 +1,32 @@
 <template>
   <div class="container">
-    <div class="card">
-      <div class="card-header">ログイン</div>
+    <div class="card mx-auto" style="max-width: 400px">
+      <div class="card-header bg-secondary text-light text-center">ログイン</div>
       <div class="card-body">
         <form @submit.prevent="login">
-          <div class="form-group row">
-            <label for="email" class="col-md-4 col-form-label text-md-right">メールアドレス</label>
-            <div class="col-md-6">
-              <input id="email" class="form-control" type="text" v-model="email">
-              <span v-if="errors.email">
-                {{ errors.email[0] }}
-              </span>
+          <div class="form-group">
+            <label for="email" class="form-label">メールアドレス</label>
+            <input id="email" class="form-control" type="text" v-model="email" :class="{ 'is-invalid': errors.email }">
+            <div class="invalid-feedback" v-for="error in errors.email" v-bind:key="error">
+              {{ error }}
             </div>
           </div>
-          <div class="form-group row">
-            <label for="password" class="col-md-4 col-form-label text-md-right">パスワード</label>
-            <div class="col-md-6">
-              <input id="password" class="form-control" type="password" v-model="password">
-              <span v-if="errors.password">
-                {{ errors.password[0] }}
-              </span>
+          <div class="form-group">
+            <label for="password" class="form-label">パスワード</label>
+            <input id="password" class="form-control" type="password" v-model="password" :class="{ 'is-invalid': errors.password }">
+            <div class="invalid-feedback" v-for="error in errors.password" v-bind:key="error">
+              {{ error }}
             </div>
           </div>
-          <button class="btn btn-primary">ログイン</button>
+          <div class="form-group">
+            <div class="form-check">
+              <input id="should-save" class="form-check-input" type="checkbox" v-model="shouldSave">
+              <label for="should-save" class="form-check-label">次回、メールアドレスの入力を省略する。</label>
+            </div>
+          </div>
+          <div class="text-center">
+            <button class="btn btn-primary">ログイン</button>
+          </div>
         </form>
       </div>
     </div>
@@ -35,9 +39,11 @@ export default {
     return {
       email: "",
       password: "",
+      shouldSave: false,
       errors: []
     }
   },
+
   methods: {
     login() {
       axios.get("/sanctum/csrf-cookie").then(response => {
@@ -46,7 +52,13 @@ export default {
           password: this.password
         })
         .then(response => {
-          console.log(response);
+          if (this.shouldSave) {
+            localStorage.setItem("email", this.email);
+            localStorage.setItem("shouldSave", "true");
+          } else {
+            localStorage.removeItem("email");
+            localStorage.removeItem("shouldSave");
+          }
           localStorage.setItem("auth", "true");
           this.$router.push('/');
         })
@@ -54,6 +66,13 @@ export default {
           this.errors = error.response.data.errors;
         })
       });
+    }
+  },
+
+  mounted() {
+    this.email = localStorage.getItem("email");
+    if (localStorage.getItem("shouldSave")) {
+      this.shouldSave = true;
     }
   }
 }
