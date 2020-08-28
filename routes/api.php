@@ -35,6 +35,9 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/product/{product}', 'ProductController@show');
     Route::put('/product/{product}', 'ProductController@update');
     Route::delete('/product/{product}', 'ProductController@destroy');
+
+    // 単位
+    Route::get('/unit', 'UnitController@index');
 });
  
 Route::post('/login', 'LoginController@login');
