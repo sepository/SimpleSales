@@ -34,7 +34,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="product in products" v-bind:key="product.id">
+            <tr v-for="product in getPageProducts" v-bind:key="product.id">
               <td class="align-middle">{{ product.name }}</td>
               <td class="align-middle">{{ product.summary }}</td>
               <td class="align-middle text-right">
@@ -48,6 +48,26 @@
         </table>
       </div>
     </div>
+
+    <div class="d-flex bd-highlight mt-3">
+      <div class="bd-highlight ml-auto">
+        <Paginate
+          :page-count="getPageCount"
+          :page-range="3"
+          :margin-pages="1"
+          :click-handler="clickPaginate"
+          :prev-text="'<<'"
+          :next-text="'>>'"
+          :container-class="'pagination'"
+          :page-class="'page-item'"
+          :prev-class="'page-item'"
+          :next-class="'page-item'"
+          :page-link-class="'page-link'"
+          :prev-link-class="'page-link'"
+          :next-link-class="'page-link'">
+        </Paginate>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -56,7 +76,9 @@ export default {
   data() {
     return {
       products: [],
-      keyword: ""
+      keyword: "",
+      perPage: 10,
+      currentPage: 1
     }
   },
 
@@ -87,6 +109,22 @@ export default {
       if (confirm(name + 'を削除してもよろしいでしょうか？')) {
         this.deleteProduct(id);
       }
+    },
+
+    clickPaginate(pageNum) {
+      this.currentPage = Number(pageNum);
+    }
+  },
+
+  computed: {
+    getPageProducts() {
+      let current = this.currentPage * this.perPage;
+      let start = current - this.perPage;
+      return this.products.slice(start, current);
+    },
+
+    getPageCount() {
+      return Math.ceil(this.products.length / this.perPage);
     }
   },
 

@@ -23,6 +23,7 @@ import App from './App'
 import router from './router'
 import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'
+import Paginate from 'vuejs-paginate'
 
 // commonフォルダから共通コンポーネント取得
 const requireComponent = require.context(
@@ -42,6 +43,9 @@ requireComponent.keys().forEach(fileName => {
     )
     Vue.component(componentName, componentConfig.default || componentConfig)
 })
+
+// コンポーネントのグローバル登録
+Vue.component('Paginate', Paginate)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
