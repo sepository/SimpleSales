@@ -21,6 +21,27 @@ window.Vue = require('vue');
 
 import App from './App'
 import router from './router'
+import upperFirst from 'lodash/upperFirst'
+import camelCase from 'lodash/camelCase'
+
+// commonフォルダから共通コンポーネント取得
+const requireComponent = require.context(
+    './components/common', false, /[A-Z]\w+\.(vue|js)$/
+)
+
+// 共通コンポーネントをグローバル登録
+requireComponent.keys().forEach(fileName => {
+    const componentConfig = requireComponent(fileName)
+    const componentName = upperFirst(
+        camelCase(
+            fileName
+                .split('/')
+                .pop()
+                .replace(/\.\w+$/, '')
+        )
+    )
+    Vue.component(componentName, componentConfig.default || componentConfig)
+})
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

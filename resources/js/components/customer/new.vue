@@ -1,11 +1,7 @@
 <template>
   <div class="container">
     <div class="mx-auto mb-2" style="max-width: 600px">
-      <router-link :to="{name: 'customer.index'}">
-        <button class="btn btn-outline-primary">
-          <i class="fas fa-angle-left"></i> 戻る
-        </button>
-      </router-link>
+      <BackButton :route="'customer.index'"></BackButton>
     </div>
     <div class="card mx-auto" style="max-width: 600px">
       <div class="card-header bg-secondary text-light text-center">取引先登録</div>
