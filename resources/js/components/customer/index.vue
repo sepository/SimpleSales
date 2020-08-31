@@ -3,6 +3,7 @@
     <div class="d-flex bd-highlight">
       <h1 class="bd-highlight mx-auto">取引先</h1>
     </div>
+
     <div class="d-flex bd-highlight">
       <div class="bd-highlight">
         <form class="form-inline" @submit.prevent="searchCustomer">
@@ -21,6 +22,7 @@
         </router-link>
       </div>
     </div>
+
     <div class="card p-0 mt-2">
       <div class="table-responsive">
         <table class="table table-hover m-0">
@@ -32,7 +34,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="customer in customers" v-bind:key="customer.id">
+            <tr v-for="customer in getPageCustomers" v-bind:key="customer.id">
               <td class="align-middle">{{ customer.name }}</td>
               <td class="align-middle">{{ customer.address }}</td>
               <td class="text-right">
@@ -46,6 +48,26 @@
         </table>
       </div>
     </div>
+
+    <div class="d-flex bd-highlight mt-3">
+      <div class="bd-highlight ml-auto">
+        <Paginate
+          :page-count="getPageCount"
+          :page-range="3"
+          :margin-pages="1"
+          :click-handler="clickPaginate"
+          :prev-text="'<<'"
+          :next-text="'>>'"
+          :container-class="'pagination'"
+          :page-class="'page-item'"
+          :prev-class="'page-item'"
+          :next-class="'page-item'"
+          :page-link-class="'page-link'"
+          :prev-link-class="'page-link'"
+          :next-link-class="'page-link'">
+        </Paginate>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -54,7 +76,9 @@ export default {
   data() {
     return {
       customers: [],
-      keyword: ""
+      keyword: "",
+      perPage: 10,
+      currentPage: 1
     }
   },
 
@@ -91,6 +115,22 @@ export default {
       if (confirm(name + 'を削除してもよろしいでしょうか？')) {
         this.deleteCustomer(id);
       }
+    },
+
+    clickPaginate(pageNum) {
+      this.currentPage = Number(pageNum);
+    }
+  },
+
+  computed: {
+    getPageCustomers() {
+      let current = this.currentPage * this.perPage;
+      let start = current - this.perPage;
+      return this.customers.slice(start, current);
+    },
+
+    getPageCount() {
+      return Math.ceil(this.customers.length / this.perPage);
     }
   }
 }
