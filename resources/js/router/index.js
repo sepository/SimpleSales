@@ -11,6 +11,7 @@ import CustomerEdit   from '../components/customer/edit'
 import ProductIndex   from '../components/product/index'
 import ProductNew     from '../components/product/new'
 import ProductEdit    from '../components/product/edit'
+import UnitIndex      from '../components/unit/index'
 
 const router = new Router({
   mode: 'history',
@@ -23,6 +24,7 @@ const router = new Router({
     { path: '/product',                   name: 'product.index',  component: ProductIndex,  meta: { authOnly: true } },
     { path: '/product/new',               name: 'product.new',    component: ProductNew,    meta: { authOnly: true } },
     { path: '/product/edit/:productId',   name: 'product.edit',   component: ProductEdit,   meta: { authOnly: true }, props: true },
+    { path: '/unit',                      name: 'unit.index',     component: UnitIndex,     meta: { authOnly: true } },
   ]
 })
 

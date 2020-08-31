@@ -31,6 +31,7 @@
         <!-- Side Menu -->
         <nav class="side col-md-3 col-lg-2 bg-secondary pt-5 px-3" v-if="isMenuExpanded && isAuthenticated">
           <div class="list-group m-0">
+            <!-- 業務 -->
             <button :class="classCollapseBtn" type="button" data-toggle="collapse" data-target="#collapseWork" aria-expanded="true" aria-controls="collapseWork">
               <i class="menu-icon fas fa-bars"></i><span class="menu-category">業務</span>
             </button>
@@ -41,12 +42,24 @@
               </router-link>
             </div>
 
+            <!-- マスタデータ -->
             <button :class="classCollapseBtn" type="button" data-toggle="collapse" data-target="#collapseMaster" aria-expanded="true" aria-controls="collapseMaster">
               <i class="menu-icon fas fa-bars"></i><span class="menu-category">マスタデータ</span>
             </button>
 
             <div class="collapse show" id="collapseMaster">
               <router-link v-for="menu in menuMasters" v-bind:key="menu.name" :to="menu.path" :class="classMenu">
+                <i class="menu-icon fas" :class="menu.icon"></i><span class="menu-text">{{ menu.name }}</span>
+              </router-link>
+            </div>
+
+            <!-- 設定 -->
+            <button :class="classCollapseBtn" type="button" data-toggle="collapse" data-target="#collapseSettings" aria-expanded="true" aria-controls="collapseSettings">
+              <i class="menu-icon fas fa-bars"></i><span class="menu-category">設定</span>
+            </button>
+
+            <div class="collapse show" id="collapseSettings">
+              <router-link v-for="menu in menuSettings" v-bind:key="menu.name" :to="menu.path" :class="classMenu">
                 <i class="menu-icon fas" :class="menu.icon"></i><span class="menu-text">{{ menu.name }}</span>
               </router-link>
             </div>
@@ -88,6 +101,13 @@ export default {
           name: '商品',
           path: '/product',
           icon: 'fa-book'
+        }
+      ],
+      menuSettings: [
+        {
+          name: '単位',
+          path: {name: 'unit.index'},
+          icon: 'fa-bolt'
         }
       ]
     }

@@ -38,6 +38,8 @@ Route::middleware('auth:sanctum')->group(function(){
 
     // 単位
     Route::get('/unit', 'UnitController@index');
+    Route::post('/unit', 'UnitController@create');
+    Route::put('/unit/{unit}', 'UnitController@update');
 });
  
 Route::post('/login', 'LoginController@login');
