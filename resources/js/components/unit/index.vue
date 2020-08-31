@@ -31,8 +31,6 @@
                       {{ error }}
                     </div>
                   </div>
-                  <div class="form-group">
-                  </div>
                 </form>
               </td>
             </tr>
