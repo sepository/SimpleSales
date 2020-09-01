@@ -1,4 +1,10 @@
 const mix = require('laravel-mix');
+require('laravel-mix-alias');
+
+mix.alias({
+    '@': '/resources/js',
+    '~': '/resources/sass',
+});
 
 /*
  |--------------------------------------------------------------------------
