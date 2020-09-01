@@ -19,7 +19,7 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-import App from './App'
+import App from '@/views/App'
 import router from './router'
 import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'
@@ -27,7 +27,7 @@ import Paginate from 'vuejs-paginate'
 
 // commonフォルダから共通コンポーネント取得
 const requireComponent = require.context(
-    './components/common', false, /[A-Z]\w+\.(vue|js)$/
+    '@/components', false, /[A-Z]\w+\.(vue|js)$/
 )
 
 // 共通コンポーネントをグローバル登録
