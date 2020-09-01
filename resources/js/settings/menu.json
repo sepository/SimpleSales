@@ -1,0 +1,46 @@
+[
+    {
+        "menuId": "menu-works",
+        "menuName": "業務",
+        "menuList": [
+            {
+                "name": "準備中...",
+                "path": "/",
+                "icon": "fa-wrench"
+            }
+        ]
+    },
+    {
+        "menuId": "menu-masters",
+        "menuName": "マスタデータ",
+        "menuList": [
+            {
+                "name": "取引先",
+                "path": {
+                    "name": "customer.index"
+                },
+                "icon": "fa-building"
+            },
+            {
+                "name": "商品",
+                "path": {
+                    "name": "product.index"
+                },
+                "icon": "fa-book"
+            }
+        ]
+    },
+    {
+        "menuId": "menu-settings",
+        "menuName": "設定",
+        "menuList": [
+            {
+                "name": "単位",
+                "path": {
+                    "name": "unit.index"
+                },
+                "icon": "fa-bolt"
+            }
+        ]
+    }
+]

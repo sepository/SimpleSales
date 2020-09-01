@@ -31,37 +31,26 @@
         <!-- Side Menu -->
         <nav class="side col-md-3 col-lg-2 bg-secondary pt-5 px-3" v-if="isMenuExpanded && isAuthenticated">
           <div class="list-group m-0">
-            <!-- 業務 -->
-            <button :class="classCollapseBtn" type="button" data-toggle="collapse" data-target="#collapseWork" aria-expanded="true" aria-controls="collapseWork">
-              <i class="menu-icon fas fa-bars"></i><span class="menu-category">業務</span>
-            </button>
+            <div v-for="menu in menus" v-bind:key="menu.menuId">
+              <button 
+                class="list-group-item list-group-item-action list-group-item-primary btn text-left m-0 border-top-0 border-bottom-0 rounded-0" 
+                type="button" 
+                data-toggle="collapse" 
+                :data-target="'#' + menu.menuId"
+                aria-expanded="true" 
+                :aria-controls="menu.menuId">
+                <i class="menu-icon fas fa-bars"></i><span class="menu-category">{{ menu.menuName }}</span>
+              </button>
 
-            <div class="collapse show" id="collapseWork">
-              <router-link v-for="menu in menuWorks" v-bind:key="menu.name" :to="menu.path" :class="classMenu">
-                <i class="menu-icon fas" :class="menu.icon"></i><span class="menu-text">{{ menu.name }}</span>
-              </router-link>
-            </div>
-
-            <!-- マスタデータ -->
-            <button :class="classCollapseBtn" type="button" data-toggle="collapse" data-target="#collapseMaster" aria-expanded="true" aria-controls="collapseMaster">
-              <i class="menu-icon fas fa-bars"></i><span class="menu-category">マスタデータ</span>
-            </button>
-
-            <div class="collapse show" id="collapseMaster">
-              <router-link v-for="menu in menuMasters" v-bind:key="menu.name" :to="menu.path" :class="classMenu">
-                <i class="menu-icon fas" :class="menu.icon"></i><span class="menu-text">{{ menu.name }}</span>
-              </router-link>
-            </div>
-
-            <!-- 設定 -->
-            <button :class="classCollapseBtn" type="button" data-toggle="collapse" data-target="#collapseSettings" aria-expanded="true" aria-controls="collapseSettings">
-              <i class="menu-icon fas fa-bars"></i><span class="menu-category">設定</span>
-            </button>
-
-            <div class="collapse show" id="collapseSettings">
-              <router-link v-for="menu in menuSettings" v-bind:key="menu.name" :to="menu.path" :class="classMenu">
-                <i class="menu-icon fas" :class="menu.icon"></i><span class="menu-text">{{ menu.name }}</span>
-              </router-link>
+              <div class="collapse show" :id="menu.menuId">
+                <router-link
+                  class="list-group-item list-group-item-action list-group-item-secondary pl-5"
+                  v-for="item in menu.menuList"
+                  v-bind:key="item.name" 
+                  :to="item.path">
+                  <i class="menu-icon fas" :class="item.icon"></i><span class="menu-text">{{ item.name }}</span>
+                </router-link>
+              </div>
             </div>
           </div>
         </nav>
@@ -82,34 +71,7 @@ export default {
       user: "",
       isMenuExpanded: true,
       isAuthenticated: false,
-      classCollapseBtn: 'list-group-item list-group-item-action list-group-item-primary btn text-left m-0 border-top-0 border-bottom-0 rounded-0',
-      classMenu: 'list-group-item list-group-item-action list-group-item-secondary pl-5',
-      menuWorks: [
-        {
-          name: '準備中...',
-          path: '/',
-          icon: 'fa-wrench'
-        }
-      ],
-      menuMasters: [
-        {
-          name: '取引先',
-          path: '/customer',
-          icon: 'fa-building'
-        },
-        {
-          name: '商品',
-          path: '/product',
-          icon: 'fa-book'
-        }
-      ],
-      menuSettings: [
-        {
-          name: '単位',
-          path: {name: 'unit.index'},
-          icon: 'fa-bolt'
-        }
-      ]
+      menus: require('@/settings/menu.json'),
     }
   },
   mounted() {
