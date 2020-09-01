@@ -20,6 +20,9 @@ Route::middleware('auth:sanctum')->group(function(){
         return $request->user();
     });
 
+    // ユーザ
+    Route::get('/user/{user}', 'UserController@show');
+
     // 取引先
     Route::get('/customer', 'CustomerController@index');
     Route::post('/customer', 'CustomerController@create');

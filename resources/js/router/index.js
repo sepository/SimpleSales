@@ -8,6 +8,7 @@ import Dashboard  from './dashboard'
 import Customer   from './customer'
 import Product    from './product'
 import Unit       from './unit'
+import User       from './user'
 
 const router = new Router({
   mode: 'history',
@@ -17,6 +18,7 @@ const router = new Router({
     ...Customer,
     ...Product,
     ...Unit,
+    ...User,
   ]
 })
 

@@ -11,6 +11,7 @@
           </span>
         </button>
         <div class="dropdown-menu dropdown-menu-right bg-secondary" aria-labelledby="dropdownMenu">
+          <router-link class="dropdown-item" :to="{name: 'profile', params: {userId: user.id}}">プロフィール</router-link>
           <button class="dropdown-item" type="button" @click="logout">ログアウト</button>
         </div>
       </div>
