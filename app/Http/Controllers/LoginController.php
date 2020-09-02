@@ -16,7 +16,7 @@ class LoginController extends Controller
         ]);
  
         if (Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Login successful'], 200);
+            return response()->json(['message' => 'Login successful', 'user' => Auth::user()], 200);
         }
  
         throw ValidationException::withMessages([

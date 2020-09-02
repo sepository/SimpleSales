@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '@/store'
 
 Vue.use(Router)
 
@@ -23,19 +24,19 @@ const router = new Router({
 })
 
 function isLoggedIn() {
-  return localStorage.getItem("auth");
+  return store.getters['auth/check'];
 }
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.authOnly)) {
     if (!isLoggedIn()) {
-      next('/login');
+      next({name: 'login'});
     } else {
       next();
     }
   } else if (to.matched.some(record => record.meta.guestOnly)) {
     if (isLoggedIn()) {
-      next('/');
+      next({name: 'dashboard'});
     } else {
       next();
     }

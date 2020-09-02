@@ -6,14 +6,14 @@
         <form @submit.prevent="login">
           <div class="form-group">
             <label for="email" class="form-label">メールアドレス</label>
-            <input id="email" class="form-control" type="text" v-model="email" :class="{ 'is-invalid': errors.email }">
+            <input id="email" class="form-control" type="text" v-model="loginForm.email" :class="{ 'is-invalid': errors.email }">
             <div class="invalid-feedback" v-for="error in errors.email" v-bind:key="error">
               {{ error }}
             </div>
           </div>
           <div class="form-group">
             <label for="password" class="form-label">パスワード</label>
-            <input id="password" class="form-control" type="password" v-model="password" :class="{ 'is-invalid': errors.password }">
+            <input id="password" class="form-control" type="password" v-model="loginForm.password" :class="{ 'is-invalid': errors.password }">
             <div class="invalid-feedback" v-for="error in errors.password" v-bind:key="error">
               {{ error }}
             </div>
@@ -37,40 +37,37 @@
 export default {
   data() {
     return {
-      email: "",
-      password: "",
+      loginForm: {
+        email: "",
+        password: "",
+      },
       shouldSave: false,
       errors: []
     }
   },
 
   methods: {
-    login() {
-      axios.get("/sanctum/csrf-cookie").then(response => {
-        axios.post("api/login", {
-          email: this.email,
-          password: this.password
-        })
-        .then(response => {
-          if (this.shouldSave) {
-            localStorage.setItem("email", this.email);
-            localStorage.setItem("shouldSave", "true");
-          } else {
-            localStorage.removeItem("email");
-            localStorage.removeItem("shouldSave");
-          }
-          localStorage.setItem("auth", "true");
-          this.$router.push('/');
-        })
-        .catch(error => {
-          this.errors = error.response.data.errors;
-        })
-      });
+    async login() {
+      await this.$store.dispatch('auth/login', this.loginForm)
+        .catch(ex => {
+          this.errors = ex.response.data.errors;
+          return;
+        });
+
+      if (this.shouldSave) {
+        localStorage.setItem("email", this.loginForm.email);
+        localStorage.setItem("shouldSave", "true");
+      } else {
+        localStorage.removeItem("email");
+        localStorage.removeItem("shouldSave");
+      }
+
+      this.$router.push({name: 'dashboard'});
     }
   },
 
   mounted() {
-    this.email = localStorage.getItem("email");
+    this.loginForm.email = localStorage.getItem("email");
     if (localStorage.getItem("shouldSave")) {
       this.shouldSave = true;
     }

@@ -29,7 +29,7 @@
 <script>
 export default {
   props: {
-    userId: String
+    userId: Number
   },
 
   data() {

@@ -4,7 +4,7 @@
       <span class="navbar-brand text-light">
         <i class="far fa-credit-card pr-2"></i>Simple Sales
       </span>
-      <div class="dropdown" v-if="isLoggedIn()">
+      <div class="dropdown" v-if="isLoggedIn">
         <button class="btn btn-secondary dropdown-toggle text-light" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <span style="font-size: 16px">
           <i class="fas fa-user-circle"></i> {{ user.name }}
@@ -19,7 +19,7 @@
 
     <div class="container-fluid p-0">
       <!-- Side Menu Collapse Button -->
-      <button class="btn btn-secondary side-btn" @click="isMenuExpanded = !isMenuExpanded" v-if="isAuthenticated">
+      <button class="btn btn-secondary side-btn" @click="isMenuExpanded = !isMenuExpanded" v-if="isLoggedIn">
         <span v-if="isMenuExpanded === true">
           <i class="fas fa-angle-double-left"></i>
         </span>
@@ -30,7 +30,7 @@
 
       <div class="row w-100 mx-0">
         <!-- Side Menu -->
-        <nav class="side col-md-3 col-lg-2 bg-secondary pt-5 px-3" v-if="isMenuExpanded && isAuthenticated">
+        <nav class="side col-md-3 col-lg-2 bg-secondary pt-5 px-3" v-if="isMenuExpanded && isLoggedIn">
           <div class="list-group m-0">
             <div v-for="menu in menus" v-bind:key="menu.menuId">
               <button 
@@ -69,61 +69,34 @@
 export default {
   data() {
     return {
-      user: "",
       isMenuExpanded: true,
-      isAuthenticated: false,
       menus: require('@/settings/menu.json'),
     }
   },
-  mounted() {
-    if (this.isLoggedIn()) {
-      this.getUser();
-      this.isAuthenticated = true;
-    }
-  },
-  updated() {
-    if (this.isLoggedIn()) {
-      if (this.user == "") {
-        this.getUser();
-      }
-      this.isAuthenticated = true;
-    } else {
-      this.isAuthenticated = false;
-    }
-  },
+
   computed: {
     contentClass: function() {
       return {
-        'col-md-9': this.isMenuExpanded && this.isAuthenticated,
-        'col-lg-10': this.isMenuExpanded && this.isAuthenticated,
-        'col-12': !this.isMenuExpanded || !this.isAuthenticated
+        'col-md-9':   this.isMenuExpanded && this.isLoggedIn,
+        'col-lg-10':  this.isMenuExpanded && this.isLoggedIn,
+        'col-12':     !this.isMenuExpanded || !this.isLoggedIn
       }
-    }
-  },
-  methods: {
+    },
+
     isLoggedIn() {
-      return localStorage.getItem("auth");
+      return this.$store.getters['auth/check'];
     },
 
-    getUser() {
-      axios.get('/api/user').then(response => {
-        this.user = response.data;
-      })
-      .catch(ex => {
-        this.logout();
-      });
+    user() {
+      return this.$store.getters['auth/user'];
     },
+  },
+  
+  methods: {
+    async logout() {
+      await this.$store.dispatch('auth/logout');
 
-    logout() {
-      axios.post('/api/logout').then(response => {
-        console.log(response);
-        localStorage.removeItem('auth');
-        this.user = "";
-        this.$router.push('/login');
-      })
-      .catch(error => {
-        console.log(error);
-      })
+      this.$router.push({name: 'login'});
     }
   }
 }

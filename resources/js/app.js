@@ -21,6 +21,7 @@ window.Vue = require('vue');
 
 import App from '@/views/App'
 import router from './router'
+import store from  './store'
 import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'
 import Paginate from 'vuejs-paginate'
@@ -53,9 +54,16 @@ Vue.component('Paginate', Paginate)
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
-    el: '#app',
-    router,
-    components: { App },
-    template: '<App/>'
-});
+const createApp = async() => {
+    await store.dispatch('auth/currentUser');
+    
+    new Vue({
+        el: '#app',
+        router,
+        store,
+        components: { App },
+        template: '<App/>'
+    });
+};
+
+createApp();

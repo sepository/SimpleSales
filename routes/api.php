@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,12 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->group(function(){
-    // ユーザ認証
-    Route::get('/user', function(Request $request){
-        return $request->user();
-    });
+// 認証済ユーザ
+Route::get('/user', function(Request $request) {
+    return Auth::user();
+});
 
+Route::middleware('auth:sanctum')->group(function() {
     // ユーザ
     Route::get('/user/{user}', 'UserController@show');
 
