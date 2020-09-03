@@ -25,6 +25,9 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        // 管理者のみ許可
+        Gate::define('admin-only', function($user) {
+            return ($user->is_admin == 1);
+        });
     }
 }

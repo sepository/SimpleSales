@@ -14,7 +14,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        // 管理者
         DB::table('users')->insert([
             [
                 'name'              => 'root',
@@ -24,5 +24,18 @@ class UsersTableSeeder extends Seeder
                 'is_admin'          => 1
             ]
         ]);
+
+        // ゲスト
+        if (config('app.debug', false)) {
+            DB::table('users')->insert([
+                [
+                    'name'              => 'guest',
+                    'email'             => 'guest@guest',
+                    'password'          => Hash::make('password'),
+                    'remember_token'    => Str::random(10),
+                    'is_admin'          => 0
+                ]
+            ]);
+        }
     }
 }

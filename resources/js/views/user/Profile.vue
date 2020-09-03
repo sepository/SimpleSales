@@ -40,7 +40,7 @@ export default {
 
   methods: {
     getUser() {
-      axios.get('/api/user/' + this.userId)
+      axios.get('/api/user/profile/' + this.userId)
         .then(res => {
           this.user = res.data;
         });

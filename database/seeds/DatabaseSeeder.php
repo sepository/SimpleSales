@@ -13,5 +13,10 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(UsersTableSeeder::class);
         $this->call(UnitsTableSeeder::class);
+
+        if (config('app.debug', false)) {
+            $this->call(CustomerTableTestDataSeeder::class);
+            $this->call(ProductTableTestDataSeeder::class);
+        }
     }
 }

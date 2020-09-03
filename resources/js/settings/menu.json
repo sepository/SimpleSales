@@ -27,6 +27,13 @@
                     "name": "product.index"
                 },
                 "icon": "fa-book"
+            },
+            {
+                "name": "単位",
+                "path": {
+                    "name": "unit.index"
+                },
+                "icon": "fa-bolt"
             }
         ]
     },
@@ -35,11 +42,11 @@
         "menuName": "設定",
         "menuList": [
             {
-                "name": "単位",
+                "name": "ユーザ",
                 "path": {
-                    "name": "unit.index"
+                    "name": "user.index"
                 },
-                "icon": "fa-bolt"
+                "icon": "fa-users"
             }
         ]
     }

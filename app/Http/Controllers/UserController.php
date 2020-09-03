@@ -7,9 +7,33 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    // 一覧
+    public function index()
+    {
+        return User::all();
+    }
+
     // 参照
     public function show(User $user)
     {
         return $user;
+    }
+
+    // 検索
+    public function search(Request $request)
+    {
+        $users = User::query();
+        $keyword = $request->keyword;
+        if ($keyword) {
+            $users->where(function($users) use ($keyword) {
+                $users->where('name', 'like', "%$keyword%")
+                    ->orWhere('email', 'like', "%$keyword%");
+            });
+        }
+        $is_admin = $request->is_admin;
+        if ($is_admin != "") {
+            $users->where('is_admin', $is_admin);
+        }
+        return $users->get();
     }
 }

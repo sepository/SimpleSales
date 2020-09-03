@@ -15,14 +15,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// 認証済ユーザ
+// 認証済ユーザ取得
 Route::get('/user', function(Request $request) {
     return Auth::user();
 });
 
+// 認証不要
+Route::post('/login', 'LoginController@login');
+Route::post('/logout', 'LoginController@logout');
+
+// 認証必須
 Route::middleware('auth:sanctum')->group(function() {
     // ユーザ
-    Route::get('/user/{user}', 'UserController@show');
+    Route::get('/user/list', 'UserController@index');
+    Route::get('/user/search', 'UserController@search');
+    Route::get('/user/profile/{user}', 'UserController@show');
 
     // 取引先
     Route::get('/customer', 'CustomerController@index');
@@ -46,5 +53,8 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::put('/unit/{unit}', 'UnitController@update');
 });
  
-Route::post('/login', 'LoginController@login');
-Route::post('/logout', 'LoginController@logout');
+// 認証必須且つ管理者権限
+Route::middleware('auth:sanctum', 'can:admin-only')->group(function() {
+    // ユーザ
+    Route::post('/user/register', 'Auth\RegisterController@register');
+});

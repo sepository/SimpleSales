@@ -28,6 +28,14 @@ function isLoggedIn() {
 }
 
 router.beforeEach((to, from, next) => {
+  // 管理者のみ許可
+  if (to.matched.some(record => record.meta.adminOnly)) {
+    if (store.getters['auth/user'].is_admin != 1) {
+      next(false);
+      return;
+    }
+  }
+
   if (to.matched.some(record => record.meta.authOnly)) {
     if (!isLoggedIn()) {
       next({name: 'login'});
