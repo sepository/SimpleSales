@@ -8,40 +8,12 @@
       <div class="card-header bg-secondary text-light text-center">商品編集</div>
       <div class="card-body">
         <form @submit.prevent="updateProduct">
-          <div class="form-group">
-            <label for="name">名称</label>
-            <input id="name" class="form-control" type="text" v-model="product.name" :class="{'is-invalid': errors.name}">
-            <div class="invalid-feedback" v-for="error in errors.name" v-bind:key="error">
-              {{ error }}
-            </div>
-          </div>
+          <BaseText id="name" title="名称" v-model="product.name" :errors="errors.name"></BaseText>
           <div class="form-row">
-            <div class="form-group col-md-6">
-              <label for="price">単価</label>
-              <input id="price" class="form-control" type="number" v-model.number="product.price" :class="{'is-invalid': errors.price}">
-              <div class="invalid-feedback" v-for="error in errors.price" v-bind:key="error">
-                {{ error }}
-              </div>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="unit">単位</label>
-              <select id="unit" class="form-control" v-model.number="product.unit_id" :class="{'is-invalid': errors.unit_id}">
-                <option v-for="unit in units" v-bind:key="unit.id" v-bind:value="unit.id">
-                  {{ unit.name }}
-                </option>
-              </select>
-              <div class="invalid-feedback" v-for="error in errors.unit_id" v-bind:key="error">
-                {{ error }}
-              </div>
-            </div>
+            <BaseNumber id="price" title="単価" v-model.number="product.price" :errors="errors.price" form-group-class="col-md-6"></BaseNumber>
+            <BaseSelect id="unit" title="単位" v-model.number="product.unit_id" :errors="errors.unit_id" form-group-class="col-md-6" :items="units" item-value="id" item-caption="name"></BaseSelect>
           </div>
-          <div class="form-group">
-            <label for="summary">概要</label>
-            <textarea id="summary" class="form-control" type="text" rows="3" v-model="product.summary"  :class="{ 'is-invalid': errors.summary }"/>
-            <div class="invalid-feedback" v-for="error in errors.summary" v-bind:key="error">
-              {{ error }}
-            </div>
-          </div>
+          <BaseTextArea id="summary" title="概要" v-model="product.summary" :errors="errors.summary"></BaseTextArea>
           <div class="text-center">
             <button class="btn btn-primary" type="submit">保存</button>
           </div>
