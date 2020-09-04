@@ -57,4 +57,6 @@ Route::middleware('auth:sanctum')->group(function() {
 Route::middleware('auth:sanctum', 'can:admin-only')->group(function() {
     // ユーザ
     Route::post('/user/register', 'Auth\RegisterController@register');
+    Route::put('/user/suspend/{user}', 'UserController@suspend');
+    Route::put('/user/resume/{user}', 'UserController@resume');
 });

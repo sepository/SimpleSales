@@ -14,6 +14,7 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required'
         ]);
+        $credentials['is_suspended'] = 0;
  
         if (Auth::attempt($credentials)) {
             return response()->json(['message' => 'Login successful', 'user' => Auth::user()], 200);

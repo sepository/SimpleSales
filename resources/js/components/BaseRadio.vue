@@ -14,7 +14,7 @@
           :id="id + item[itemValue]"
           :value="item[itemValue]"
           :checked="value == item[itemValue]"
-          @change="$emit('input', Number($event.target.value))">
+          @change="change($event.target.value)">
         {{ item[itemCaption] }}
       </label>
     </div>
@@ -69,6 +69,13 @@ export default {
       return {
         'is-invalid': this.errors
       };
+    }
+  },
+
+  methods: {
+    change(value) {
+      this.$emit('input', Number(value));
+      this.$emit('change-after');
     }
   },
 }

@@ -12,19 +12,14 @@
             <div class="input-group-prepend">
               <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">フィルタ</button>
               <div class="dropdown-menu border-secondary p-3">
-                <form class="form-group">
-                  <div class="btn-group btn-group-toggle">
-                    <label class="btn btn-outline-secondary" :class="{'active': filter.is_admin == ''}">
-                      <input type="radio" name="is_admin" id="is_admin1" autocomplete="off" value="" v-model="filter.is_admin" @change="search">全て
-                    </label>
-                    <label class="btn btn-outline-secondary" :class="{'active': filter.is_admin == '1'}">
-                      <input type="radio" name="is_admin" id="is_admin2" autocomplete="off" value="1" v-model="filter.is_admin" @change="search">管理者
-                    </label>
-                    <label class="btn btn-outline-secondary" :class="{'active': filter.is_admin == '0'}">
-                      <input type="radio" name="is_admin" id="is_admin3" autocomplete="off" value="0" v-model="filter.is_admin" @change="search">一般
-                    </label>
-                  </div>
-                </form>
+                <h6 class="dropdown-header pl-0">権限</h6>
+                <div class="dropdown-item p-0">
+                  <BaseRadio id="is-admin" v-model.number="filter.is_admin" :items="isAdminItems" @change-after="search"></BaseRadio>
+                </div>
+                <h6 class="dropdown-header pl-0">利用停止中のユーザ</h6>
+                <div class="dropdown-item p-0">
+                  <BaseRadio id="include-suspended-user" v-model.number="filter.include_suspended_user" :items="includeSuspendedUserItems" @change-after="search"></BaseRadio>
+                </div>
               </div>
             </div>
             <input class="form-control" id="keyword" type="text" v-model="filter.keyword">
@@ -32,7 +27,7 @@
         </form>
       </div>
 
-      <div class="bd-hightlight ml-auto" v-if="user.is_admin == 1">
+      <div class="bd-hightlight ml-auto" v-if="getAuthUser.is_admin == 1">
         <router-link :to="{name: 'user.register'}">
           <button class="btn btn-primary m-1">新規</button>
         </router-link>
@@ -47,7 +42,7 @@
               <td scope="col" class="border-0">ユーザ名</td>
               <td scope="col" class="border-0">メールアドレス</td>
               <td scope="col" class="border-0">権限</td>
-              <td scope="col" class="border-0"></td>
+              <td scope="col" class="border-0" v-if="getAuthUser.is_admin == 1"></td>
             </tr>
           </thead>
 
@@ -56,9 +51,9 @@
               <td class="align-middle">{{ user.name }}</td>
               <td class="align-middle">{{ user.email }}</td>
               <td class="align-middle">{{ user.is_admin ? "管理者" : "一般" }}</td>
-              <td class="align-middle text-right">
-                <button class="btn btn-primary mx-1">編集</button>
-                <button class="btn btn-danger mx-1">削除</button>
+              <td class="align-middle text-right" v-if="getAuthUser.is_admin == 1">
+                <button class="btn btn-danger mx-1" v-if="user.is_suspended == 0" @click="suspend(user)">利用停止</button>
+                <button class="btn btn-success mx-1" v-else @click="resume(user)">利用再開</button>
               </td>
             </tr>
           </tbody>
@@ -81,12 +76,22 @@ export default {
       users: [],
       filter: {
         keyword: "",
-        is_admin: ""
+        is_admin: 2,
+        include_suspended_user: 0
       },
       page: {
         per: 10,
         current: 1
-      }
+      },
+      isAdminItems: [
+        { value: 2, caption: "全て" },
+        { value: 1, caption: "管理者" },
+        { value: 0, caption: "一般" },
+      ],
+      includeSuspendedUserItems: [
+        { value: 1, caption: "含める" },
+        { value: 0, caption: "含めない" },
+      ]
     }
   },
 
@@ -95,12 +100,29 @@ export default {
       axios.get('/api/user/search', {
         params: {
           keyword: this.filter.keyword,
-          is_admin: this.filter.is_admin
+          is_admin: this.filter.is_admin,
+          include_suspended_user: this.filter.include_suspended_user
         }
       })
       .then(res => {
         this.users = res.data;
       });
+    },
+
+    suspend(user) {
+      if (confirm(user.name + "さんの利用を停止します。")) {
+        axios.put('/api/user/suspend/' + user.id).then(res => {
+          this.search();
+        });
+      }
+    },
+
+    resume(user) {
+      if (confirm(user.name + "さんの利用を再開します。")) {
+        axios.put('/api/user/resume/' + user.id).then(res => {
+          this.search();
+        });
+      }
     },
 
     clickPaginate(pageNum) {
@@ -119,14 +141,14 @@ export default {
       return Math.ceil(this.users.length / this.page.per);
     },
 
-    user() {
+    getAuthUser() {
       return this.$store.getters['auth/user'];
     }
   },
 
   mounted() {
     axios.get('/api/user/list').then(res => {
-      this.users = res.data;
+      this.search();
     });
   }
 }
