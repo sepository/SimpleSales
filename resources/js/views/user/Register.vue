@@ -8,53 +8,11 @@
       <div class="card-header bg-secondary text-light text-center">ユーザ登録</div>
       <div class="card-body">
         <form @submit.prevent="regist">
-          <div class="form-group">
-            <label for="name">ユーザ名</label>
-            <input id="name" class="form-control" type="text" v-model="name" :class="{'is-invalid': errors.name}">
-            <div class="invalid-feedback" v-for="error in errors.name" v-bind:key="error">
-              {{ error }}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="email">メールアドレス</label>
-            <input id="email" class="form-control" type="email" v-model="email" :class="{'is-invalid': errors.email}">
-            <div class="invalid-feedback" v-for="error in errors.email" v-bind:key="error">
-              {{ error }}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="password">パスワード</label>
-            <input id="password" class="form-control" type="password" v-model="password" :class="{'is-invalid': errors.password}">
-            <div class="invalid-feedback" v-for="error in errors.password" v-bind:key="error">
-              {{ error }}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="password_confirmation">パスワード(確認)</label>
-            <input id="password_confirmation" class="form-control" type="password" v-model="password_confirmation" :class="{'is-invalid': errors.password_confirmation}">
-            <div class="invalid-feedback" v-for="error in errors.password_confirmation" v-bind:key="error">
-              {{ error }}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="w-100" for="is_admin">権限</label>
-            <div class="btn-group btn-group-toggle" :class="{'is-invalid': errors.is_admin}">
-              <label class="btn btn-outline-secondary" :class="{'active': is_admin == '1'}">
-                <input type="radio" name="is_admin" id="is_admin_1" autocomplete="off" value="1" v-model="is_admin">管理者
-              </label>
-              <label class="btn btn-outline-secondary" :class="{'active': is_admin == '0'}">
-                <input type="radio" name="is_admin" id="is_admin_0" autocomplete="off" value="0" v-model="is_admin">一般
-              </label>
-            </div>
-            <div class="invalid-feedback" v-for="error in errors.is_admin" v-bind:key="error">
-              {{ error }}
-            </div>
-          </div>
-
+          <BaseText id="name" title="ユーザ名" v-model="name" :errors="errors.name"></BaseText>
+          <BaseEmail id="email" title="メールアドレス" v-model="email" :errors="errors.email"></BaseEmail>
+          <BasePassword id="password" title="パスワード" v-model="password" :errors="errors.password"></BasePassword>
+          <BasePassword id="password_confirmation" title="パスワード（確認用）" v-model="password_confirmation" :errors="errors.password_confirmation"></BasePassword>
+          <BaseRadio id="is_admin" title="権限" v-model="is_admin" :errors="errors.is_admin" :items="isAdminItems"></BaseRadio>
           <div class="text-center">
             <button class="btn btn-primary" type="submit">登録</button>
           </div>
@@ -73,7 +31,11 @@ export default {
       password: "",
       password_confirmation: "",
       is_admin: 0,
-      errors: []
+      errors: [],
+      isAdminItems: [
+        { value: 1, caption: "管理者"},
+        { value: 0, caption: "一般"}
+      ],
     }
   },
 

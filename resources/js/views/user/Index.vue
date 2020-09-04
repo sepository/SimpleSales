@@ -68,21 +68,7 @@
 
     <div class="d-flex bd-highlight mt-3">
       <div class="bd-highlight ml-auto">
-        <Paginate
-          :page-count="getPageCount"
-          :page-range="3"
-          :margin-pages="1"
-          :click-handler="clickPaginate"
-          :prev-text="'<<'"
-          :next-text="'>>'"
-          :container-class="'pagination'"
-          :page-class="'page-item'"
-          :prev-class="'page-item'"
-          :next-class="'page-item'"
-          :page-link-class="'page-link'"
-          :prev-link-class="'page-link'"
-          :next-link-class="'page-link'">
-        </Paginate>
+        <BasePaginate :pageCount="getPageCount" v-bind:currentPage.sync="page.current"></BasePaginate>
       </div>
     </div>
   </div>
