@@ -6,9 +6,23 @@
       </div>
       <div class="card-body">
         <form @submit.prevent="login">
-          <BaseEmail id="email" :title="$t('user.email')" v-model="loginForm.email" :errors="errors.email"></BaseEmail>
-          <BasePassword id="password" :title="$t('user.password')" v-model="loginForm.password" :errors="errors.password"></BasePassword>
-          <BaseCheckbox id="should-save" :title="$t('login.save_email')" v-model.number="shouldSave"></BaseCheckbox>
+          <BaseEmail
+            id="email"
+            v-model="loginForm.email"
+            :title="$t('user.email')"
+            :errors="errors.email"
+          />
+          <BasePassword
+            id="password"
+            v-model="loginForm.password"
+            :title="$t('user.password')"
+            :errors="errors.password"
+          />
+          <BaseCheckbox
+            id="should-save"
+            v-model.number="shouldSave"
+            :title="$t('login.save_email')"
+          />
           <div class="text-center">
             <button class="btn btn-primary">
               {{ $t('login.title') }}

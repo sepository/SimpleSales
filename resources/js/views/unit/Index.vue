@@ -11,33 +11,42 @@
         <table class="table table-hover m-0">
           <thead>
             <tr class="table-secondary">
-              <td scope="col" class="border-0">
+              <th scope="col" class="border-0">
                 {{ $t('unit.name') }}
-              </td>
-              <td scope="col" class="border-0"></td>
+              </th>
+              <th scope="col" class="border-0"></th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="unit in units" v-bind:key="unit.id">
-              <td class="align-middle" v-if="currentEditId != unit.id">
+              <td v-if="currentEditId != unit.id" class="align-middle">
                 {{ unit.name }}
               </td>
-              <td class="align-middle text-right" v-if="currentEditId != unit.id">
-                <button class="btn btn-primary mx-1" @click="edit(unit)" :disabled="currentEditId == 0 ? false : true">
+              <td v-if="currentEditId != unit.id" class="align-middle text-right">
+                <button
+                  class="btn btn-primary mx-1"
+                  :disabled="currentEditId == 0 ? false : true"
+                  @click="edit(unit)"
+                >
                   {{ $t('common.edit') }}
                 </button>
               </td>
-              <td class="align-middle" colspan="2" v-else>
+              <td v-else class="align-middle" colspan="2">
                 <form class="form-inline" @submit.prevent="save(unit)" @reset.prevent="cancel(unit)">
                   <div class="form-group w-100">
-                    <input class="form-control" type="text" v-model="unit.name" :class="{'is-invalid': errorsEdit.name}">
-                    <button class="btn btn-success ml-auto mr-1" type="submit">
+                    <input 
+                      v-model="unit.name"
+                      type="text"
+                      class="form-control"
+                      :class="{'is-invalid': errorsEdit.name}"
+                    >
+                    <button type="submit" class="btn btn-success ml-auto mr-1">
                       {{ $t('common.save') }}
                     </button>
-                    <button class="btn btn-danger mx-1" type="reset">
+                    <button type="reset" class="btn btn-danger mx-1">
                       {{ $t('common.reset') }}
                     </button>
-                    <div class="form-row invalid-feedback" v-for="error in errorsEdit.name" v-bind:key="error">
+                    <div v-for="error in errorsEdit.name" v-bind:key="error" class="form-row invalid-feedback">
                       {{ error }}
                     </div>
                   </div>
@@ -48,11 +57,17 @@
               <td class="align-middle" colspan="2">
                 <form class="form-inline" @submit.prevent="create">
                   <div class="form-group w-100">
-                    <input id="name" class="form-control" type="text" v-model="name" :class="{'is-invalid': errorsCreate.name}">
-                    <button class="btn btn-success ml-auto mr-1" type="submit">
+                    <input 
+                      id="name"
+                      v-model="name"
+                      type="text"
+                      class="form-control"
+                      :class="{'is-invalid': errorsCreate.name}"
+                    >
+                    <button type="submit" class="btn btn-success ml-auto mr-1">
                       {{ $t('common.add') }}
                     </button>
-                    <div class="invalid-feedback" v-for="error in errorsCreate.name" v-bind:key="error">
+                    <div v-for="error in errorsCreate.name" v-bind:key="error" class="invalid-feedback">
                       {{ error }}
                     </div>
                   </div>

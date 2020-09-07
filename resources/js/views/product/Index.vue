@@ -34,13 +34,13 @@
         <table class="table table-hover m-0">
           <thead>
             <tr class="table-secondary">
-              <td scope="col" class="border-0">
+              <th scope="col" class="border-0">
                 {{ $t('product.name') }}
-              </td>
-              <td scope="col" class="border-0">
+              </th>
+              <th scope="col" class="border-0">
                 {{ $t('product.summary') }}
-              </td>
-              <td scope="col" class="border-0"></td>
+              </th>
+              <th scope="col" class="border-0"></th>
             </tr>
           </thead>
           <tbody>
@@ -65,7 +65,7 @@
 
     <div class="d-flex bd-highlight mt-3">
       <div class="bd-highlight ml-auto">
-        <BasePaginate :pageCount="getPageCount" v-bind:currentPage.sync="currentPage"></BasePaginate>
+        <BasePaginate :pageCount="getPageCount" v-bind:currentPage.sync="currentPage"/>
       </div>
     </div>
   </div>

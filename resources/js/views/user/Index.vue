@@ -20,22 +20,32 @@
                   {{ $t('user.authority') }}
                 </h6>
                 <div class="dropdown-item p-0">
-                  <BaseRadio id="is-admin" v-model.number="filter.is_admin" :items="isAdminItems" @change-after="search"></BaseRadio>
+                  <BaseRadio
+                    id="is-admin"
+                    v-model.number="filter.is_admin"
+                    :items="isAdminItems"
+                    @change-after="search"
+                  />
                 </div>
                 <h6 class="dropdown-header pl-0">
                   {{ $t('user.suspended_user') }}
                 </h6>
                 <div class="dropdown-item p-0">
-                  <BaseRadio id="include-suspended-user" v-model.number="filter.include_suspended_user" :items="includeSuspendedUserItems" @change-after="search"></BaseRadio>
+                  <BaseRadio
+                    id="include-suspended-user"
+                    v-model.number="filter.include_suspended_user"
+                    :items="includeSuspendedUserItems"
+                    @change-after="search"
+                  />
                 </div>
               </div>
             </div>
-            <input class="form-control" id="keyword" type="text" v-model="filter.keyword">
+            <input id="keyword" v-model="filter.keyword" type="text" class="form-control">
           </div>
         </form>
       </div>
 
-      <div class="bd-hightlight ml-auto" v-if="getAuthUser.is_admin == 1">
+      <div v-if="getAuthUser.is_admin == 1" class="bd-hightlight ml-auto">
         <router-link :to="{name: 'user.register'}">
           <button class="btn btn-primary m-1">
             {{ $t('common.new') }}
@@ -49,29 +59,35 @@
         <table class="table table-hover m-0">
           <thead>
             <tr class="table-secondary">
-              <td scope="col" class="border-0">
+              <th scope="col" class="border-0">
                 {{ $t('user.name') }}
-              </td>
-              <td scope="col" class="border-0">
+              </th>
+              <th scope="col" class="border-0">
                 {{ $t('user.email') }}
-              </td>
-              <td scope="col" class="border-0">
+              </th>
+              <th scope="col" class="border-0">
                 {{ $t('user.authority') }}
-              </td>
-              <td scope="col" class="border-0" v-if="getAuthUser.is_admin == 1"></td>
+              </th>
+              <th v-if="getAuthUser.is_admin == 1" scope="col" class="border-0"></th>
             </tr>
           </thead>
 
           <tbody>
             <tr v-for="user in getUsers" v-bind:key="user.id">
-              <td class="align-middle">{{ user.name }}</td>
-              <td class="align-middle">{{ user.email }}</td>
-              <td class="align-middle">{{ user.is_admin ? $t('user.authorities.admin') : $t('user.authorities.ordinary') }}</td>
-              <td class="align-middle text-right" v-if="getAuthUser.is_admin == 1">
-                <button class="btn btn-danger mx-1" v-if="user.is_suspended == 0" @click="suspend(user)">
+              <td class="align-middle">
+                {{ user.name }}
+              </td>
+              <td class="align-middle">
+                {{ user.email }}
+              </td>
+              <td class="align-middle">
+                {{ user.is_admin ? $t('user.authorities.admin') : $t('user.authorities.ordinary') }}
+              </td>
+              <td v-if="getAuthUser.is_admin == 1" class="align-middle text-right">
+                <button v-if="user.is_suspended == 0" class="btn btn-danger mx-1" @click="suspend(user)">
                   {{ $t('user.suspend') }}
                 </button>
-                <button class="btn btn-success mx-1" v-else @click="resume(user)">
+                <button v-else class="btn btn-success mx-1" @click="resume(user)">
                   {{ $t('user.resume') }}
                 </button>
               </td>
@@ -83,7 +99,7 @@
 
     <div class="d-flex bd-highlight mt-3">
       <div class="bd-highlight ml-auto">
-        <BasePaginate :pageCount="getPageCount" v-bind:currentPage.sync="page.current"></BasePaginate>
+        <BasePaginate :pageCount="getPageCount" v-bind:currentPage.sync="page.current"/>
       </div>
     </div>
   </div>

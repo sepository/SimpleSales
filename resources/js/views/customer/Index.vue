@@ -65,7 +65,7 @@
 
     <div class="d-flex bd-highlight mt-3">
       <div class="bd-highlight ml-auto">
-        <BasePaginate :pageCount="getPageCount" v-bind:currentPage.sync="currentPage"></BasePaginate>
+        <BasePaginate :pageCount="getPageCount" v-bind:currentPage.sync="currentPage"/>
       </div>
     </div>
   </div>

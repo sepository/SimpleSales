@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="mx-auto mb-2" style="max-width: 600px">
-      <BackButton :route="'product.index'"></BackButton>
+      <BackButton :route="'product.index'"/>
     </div>
 
     <div class="card mx-auto" style="max-width: 600px">
@@ -10,14 +10,39 @@
       </div>
       <div class="card-body">
         <form @submit.prevent="createProduct">
-          <BaseText id="name" :title="$t('product.name')" v-model="name" :errors="errors.name"></BaseText>
+          <BaseText
+            id="name"
+            v-model="name"
+            :title="$t('product.name')"
+            :errors="errors.name"
+          />
           <div class="form-row">
-            <BaseNumber id="price" :title="$t('product.price')" v-model.number="price" :errors="errors.price" form-group-class="col-md-6"></BaseNumber>
-            <BaseSelect id="unit" :title="$t('product.unit')" v-model.number="unit_id" :errors="errors.unit_id" form-group-class="col-md-6" :items="units" item-value="id" item-caption="name"></BaseSelect>
+            <BaseNumber
+              id="price"
+              v-model.number="price"
+              :title="$t('product.price')"
+              :errors="errors.price"
+              form-group-class="col-md-6"
+            />
+            <BaseSelect
+              id="unit"
+              v-model.number="unit_id"
+              :title="$t('product.unit')"
+              :errors="errors.unit_id"
+              :items="units"
+              item-value="id"
+              item-caption="name"
+              form-group-class="col-md-6"
+            />
           </div>
-          <BaseTextArea id="summary" :title="$t('product.summary')" v-model="summary" :errors="errors.summary"></BaseTextArea>
+          <BaseTextArea
+            id="summary"
+            v-model="summary"
+            :title="$t('product.summary')"
+            :errors="errors.summary"
+          />
           <div class="text-center">
-            <button class="btn btn-primary" type="submit">
+            <button type="submit" class="btn btn-primary">
               {{ $t('common.regist') }}
             </button>
           </div>

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="mx-auto mb-2" style="max-width: 600px">
-      <BackButton :route="'customer.index'"></BackButton>
+      <BackButton :route="'customer.index'"/>
     </div>
     <div class="card mx-auto" style="max-width: 600px">
       <div class="card-header bg-secondary text-light text-center">
@@ -9,12 +9,32 @@
       </div>
       <div class="card-body">
         <form @submit.prevent="updateCustomer">
-          <BaseText id="name" :title="$t('customer.name')" v-model="customer.name" :errors="errors.name"></BaseText>
-          <BaseText id="postal_code" :title="$t('customer.postal_code')" v-model="customer.postal_code" :errors="errors.postal_code"></BaseText>
-          <BaseTextArea id="address" :title="$t('customer.address')" v-model="customer.address" :errors="errors.address"></BaseTextArea>
-          <BaseText id="tel_no" :title="$t('customer.tel_no')" v-model="customer.tel_no" :errors="errors.tel_no"></BaseText>
+          <BaseText
+            id="name" 
+            v-model="customer.name"
+            :title="$t('customer.name')"
+            :errors="errors.name"
+          />
+          <BaseText
+            id="postal_code"
+            v-model="customer.postal_code"
+            :title="$t('customer.postal_code')"
+            :errors="errors.postal_code"
+          />
+          <BaseTextArea
+            id="address"
+            v-model="customer.address"
+            :title="$t('customer.address')"
+            :errors="errors.address"
+          />
+          <BaseText
+            id="tel_no"
+            v-model="customer.tel_no"
+            :title="$t('customer.tel_no')"
+            :errors="errors.tel_no"
+          />
           <div class="text-center">
-            <button class="btn btn-primary" type="submit">
+            <button type="submit" class="btn btn-primary">
               {{ $t('common.save') }}
             </button>
           </div>
