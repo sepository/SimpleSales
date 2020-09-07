@@ -1,7 +1,7 @@
 [
     {
         "menuId": "menu-works",
-        "menuName": "業務",
+        "menuName": "works",
         "menuList": [
             {
                 "name": "準備中...",
@@ -12,24 +12,24 @@
     },
     {
         "menuId": "menu-masters",
-        "menuName": "マスタデータ",
+        "menuName": "masters",
         "menuList": [
             {
-                "name": "取引先",
+                "name": "customers",
                 "path": {
                     "name": "customer.index"
                 },
                 "icon": "fa-building"
             },
             {
-                "name": "商品",
+                "name": "products",
                 "path": {
                     "name": "product.index"
                 },
                 "icon": "fa-book"
             },
             {
-                "name": "単位",
+                "name": "units",
                 "path": {
                     "name": "unit.index"
                 },
@@ -39,10 +39,10 @@
     },
     {
         "menuId": "menu-settings",
-        "menuName": "設定",
+        "menuName": "settings",
         "menuList": [
             {
-                "name": "ユーザ",
+                "name": "users",
                 "path": {
                     "name": "user.index"
                 },

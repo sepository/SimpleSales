@@ -5,16 +5,20 @@
     </div>
 
     <div class="card mx-auto" style="max-width: 400px">
-      <div class="card-header bg-secondary text-light text-center">ユーザ登録</div>
+      <div class="card-header bg-secondary text-light text-center">
+        {{ $t('user.register') }}
+      </div>
       <div class="card-body">
         <form @submit.prevent="regist">
-          <BaseText id="name" title="ユーザ名" v-model="name" :errors="errors.name"></BaseText>
-          <BaseEmail id="email" title="メールアドレス" v-model="email" :errors="errors.email"></BaseEmail>
-          <BasePassword id="password" title="パスワード" v-model="password" :errors="errors.password"></BasePassword>
-          <BasePassword id="password_confirmation" title="パスワード（確認用）" v-model="password_confirmation" :errors="errors.password_confirmation"></BasePassword>
-          <BaseRadio id="is_admin" title="権限" v-model="is_admin" :errors="errors.is_admin" :items="isAdminItems"></BaseRadio>
+          <BaseText id="name" :title="$t('user.name')" v-model="name" :errors="errors.name"></BaseText>
+          <BaseEmail id="email" :title="$t('user.email')" v-model="email" :errors="errors.email"></BaseEmail>
+          <BasePassword id="password" :title="$t('user.password')" v-model="password" :errors="errors.password"></BasePassword>
+          <BasePassword id="password_confirmation" :title="$t('user.password_confirmation')" v-model="password_confirmation" :errors="errors.password_confirmation"></BasePassword>
+          <BaseRadio id="is_admin" :title="$t('user.authority')" v-model="is_admin" :errors="errors.is_admin" :items="isAdminItems"></BaseRadio>
           <div class="text-center">
-            <button class="btn btn-primary" type="submit">登録</button>
+            <button class="btn btn-primary" type="submit">
+              {{ $t('common.regist') }}
+            </button>
           </div>
         </form>
       </div>
@@ -32,10 +36,6 @@ export default {
       password_confirmation: "",
       is_admin: 0,
       errors: [],
-      isAdminItems: [
-        { value: 1, caption: "管理者"},
-        { value: 0, caption: "一般"}
-      ],
     }
   },
 
@@ -55,6 +55,15 @@ export default {
         this.errors = ex.response.data.errors;
       });
     }
-  }
+  },
+
+  computed: {
+    isAdminItems() {
+      return [
+        { value: 1, caption: this.$t('user.authorities.admin') },
+        { value: 0, caption: this.$t('user.authorities.ordinary') },
+      ];
+    },
+  },
 }
 </script>

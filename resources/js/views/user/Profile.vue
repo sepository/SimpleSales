@@ -1,22 +1,36 @@
 <template>
   <div class="container">
     <div class="card mx-auto" style="max-width: 400px">
-      <div class="card-header bg-secondary text-light text-center">プロフィール</div>
+      <div class="card-header bg-secondary text-light text-center">
+        {{ $t('user.profile') }}
+      </div>
       <div class="card-body p-0">
         <div class="table-responsive">
           <table class="table m-0">
             <tbody>
               <tr>
-                <td class="border-top-0">ユーザ名</td>
-                <td class="border-top-0">{{ user.name }}</td>
+                <td class="border-top-0">
+                  {{ $t('user.name') }}
+                </td>
+                <td class="border-top-0">
+                  {{ user.name }}
+                </td>
               </tr>
               <tr>
-                <td>メールアドレス</td>
-                <td>{{ user.email }}</td>
+                <td>
+                  {{ $t('user.email') }}
+                </td>
+                <td>
+                  {{ user.email }}
+                </td>
               </tr>
               <tr>
-                <td>権限</td>
-                <td>{{ user.is_admin ? "管理者" : "一般" }}</td>
+                <td>
+                  {{ $t('user.authority') }}
+                </td>
+                <td>
+                  {{ user.is_admin ? $t('user.authorities.admin') : $t('user.authorities.ordinary') }}
+                </td>
               </tr>
             </tbody>
           </table>

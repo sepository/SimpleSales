@@ -4,15 +4,19 @@
       <BackButton :route="'customer.index'"></BackButton>
     </div>
     <div class="card mx-auto" style="max-width: 600px">
-      <div class="card-header bg-secondary text-light text-center">取引先登録</div>
+      <div class="card-header bg-secondary text-light text-center">
+        {{ $t('customer.new') }}
+      </div>
       <div class="card-body">
         <form @submit.prevent="createCustomer">
-          <BaseText id="name" title="名称" v-model="name" :errors="errors.name"></BaseText>
-          <BaseText id="postal_code" title="郵便番号" v-model="postal_code" :errors="errors.postal_code"></BaseText>
-          <BaseTextArea id="address" title="住所・宛先" v-model="address" :errors="errors.address"></BaseTextArea>
-          <BaseText id="tel_no" title="電話番号" v-model="tel_no" :errors="errors.tel_no"></BaseText>
+          <BaseText id="name" :title="$t('customer.name')" v-model="name" :errors="errors.name"></BaseText>
+          <BaseText id="postal_code" :title="$t('customer.postal_code')" v-model="postal_code" :errors="errors.postal_code"></BaseText>
+          <BaseTextArea id="address" :title="$t('customer.address')" v-model="address" :errors="errors.address"></BaseTextArea>
+          <BaseText id="tel_no" :title="$t('customer.tel_no')" v-model="tel_no" :errors="errors.tel_no"></BaseText>
           <div class="text-center">
-            <button class="btn btn-primary" type="submit">登録</button>
+            <button class="btn btn-primary" type="submit">
+              {{ $t('common.regist') }}
+            </button>
           </div>
         </form>
       </div>

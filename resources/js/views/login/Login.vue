@@ -1,14 +1,18 @@
 <template>
   <div class="container">
     <div class="card mx-auto" style="max-width: 400px">
-      <div class="card-header bg-secondary text-light text-center">ログイン</div>
+      <div class="card-header bg-secondary text-light text-center">
+        {{ $t('login.title') }}
+      </div>
       <div class="card-body">
         <form @submit.prevent="login">
-          <BaseEmail id="email" title="メールアドレス" v-model="loginForm.email" :errors="errors.email"></BaseEmail>
-          <BasePassword id="password" title="パスワード" v-model="loginForm.password" :errors="errors.password"></BasePassword>
-          <BaseCheckbox id="should-save" title="次回、メールアドレスの入力を省略する。" v-model.number="shouldSave"></BaseCheckbox>
+          <BaseEmail id="email" :title="$t('user.email')" v-model="loginForm.email" :errors="errors.email"></BaseEmail>
+          <BasePassword id="password" :title="$t('user.password')" v-model="loginForm.password" :errors="errors.password"></BasePassword>
+          <BaseCheckbox id="should-save" :title="$t('login.save_email')" v-model.number="shouldSave"></BaseCheckbox>
           <div class="text-center">
-            <button class="btn btn-primary">ログイン</button>
+            <button class="btn btn-primary">
+              {{ $t('login.title') }}
+            </button>
           </div>
         </form>
       </div>

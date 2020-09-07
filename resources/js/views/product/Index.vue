@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="d-flex bd-highlight">
-      <h1 class="bd-highlight mx-auto">商品</h1>
+      <h1 class="bd-highlight mx-auto">
+        {{ $t('product.title') }}
+      </h1>
     </div>
 
     <div class="d-flex bd-highlight">
@@ -10,7 +12,9 @@
           <label class="sr-only" for="keyword">Product</label>
           <div class="input-group">
             <div class="input-group-prepend">
-              <div class="input-group-text">検索</div>
+              <div class="input-group-text">
+                {{ $t('common.search') }}
+              </div>
             </div>
             <input class="form-control" id="keyword" type="text" v-model="keyword">
           </div>
@@ -18,7 +22,9 @@
       </div>
       <div class="bd-highlight ml-auto">
         <router-link :to="{name: 'product.new'}">
-          <button class="btn btn-primary m-1">新規</button>
+          <button class="btn btn-primary m-1">
+            {{ $t('common.new') }}
+          </button>
         </router-link>
       </div>
     </div>
@@ -28,8 +34,12 @@
         <table class="table table-hover m-0">
           <thead>
             <tr class="table-secondary">
-              <td scope="col" class="border-0">名称</td>
-              <td scope="col" class="border-0">概要</td>
+              <td scope="col" class="border-0">
+                {{ $t('product.name') }}
+              </td>
+              <td scope="col" class="border-0">
+                {{ $t('product.summary') }}
+              </td>
               <td scope="col" class="border-0"></td>
             </tr>
           </thead>
@@ -39,9 +49,13 @@
               <td class="align-middle">{{ product.summary }}</td>
               <td class="align-middle text-right">
                 <router-link :to="{name: 'product.edit', params: {productId: product.id}}">
-                  <button class="btn btn-primary mx-1">編集</button>
+                  <button class="btn btn-primary mx-1">
+                    {{ $t('common.edit') }}
+                  </button>
                 </router-link>
-                <button class="btn btn-danger mx-1" @click="confirmDeleteProduct(product.id, product.name)">削除</button>
+                <button class="btn btn-danger mx-1" @click="confirmDeleteProduct(product.id, product.name)">
+                  {{ $t('common.delete') }}
+                </button>
               </td>
             </tr>
           </tbody>
@@ -92,7 +106,7 @@ export default {
     },
 
     confirmDeleteProduct(id, name) {
-      if (confirm(name + 'を削除してもよろしいでしょうか？')) {
+      if (confirm(this.$t('common.message.confirm_delete', [name]))) {
         this.deleteProduct(id);
       }
     },

@@ -4,15 +4,41 @@
       <span class="navbar-brand text-light">
         <i class="far fa-credit-card pr-2"></i>Simple Sales
       </span>
-      <div class="dropdown" v-if="isLoggedIn">
+      <div class="dropdown ml-auto" v-if="isLoggedIn">
         <button class="btn btn-secondary dropdown-toggle text-light" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <span style="font-size: 16px">
           <i class="fas fa-user-circle"></i> {{ user.name }}
           </span>
         </button>
         <div class="dropdown-menu dropdown-menu-right bg-secondary" aria-labelledby="dropdownMenu">
-          <router-link class="dropdown-item" :to="{name: 'profile', params: {userId: user.id}}">プロフィール</router-link>
-          <button class="dropdown-item" type="button" @click="logout">ログアウト</button>
+          <router-link class="dropdown-item" :to="{name: 'profile', params: {userId: user.id}}">
+            {{ $t('user.profile') }}
+          </router-link>
+          <button class="dropdown-item" type="button" @click="logout">
+            {{ $t('menu.logout') }}
+          </button>
+        </div>
+
+      </div>
+      <div class="dropdown ml-1">
+        <button 
+          class="btn btn-secondary dropdown-toggle text-light" 
+          type="button" 
+          id="languageMenu" 
+          data-toggle="dropdown" 
+          aria-haspopup="true" 
+          aria-expanded="false">
+          <span style="font-size: 16px">
+          <i class="fas fa-globe"></i> {{ $t('lang.' + $i18n.locale) }}
+          </span>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right bg-secondary" aria-labelledby="languageMenu">
+          <button class="dropdown-item" type="button" @click="changeLocale('en')">
+            {{ $t('lang.en') }}
+          </button>
+          <button class="dropdown-item" type="button" @click="changeLocale('ja')">
+            {{ $t('lang.ja') }}
+          </button>
         </div>
       </div>
     </nav>
@@ -40,7 +66,7 @@
                 :data-target="'#' + menu.menuId"
                 aria-expanded="true" 
                 :aria-controls="menu.menuId">
-                <i class="menu-icon fas fa-bars"></i><span class="menu-category">{{ menu.menuName }}</span>
+                <i class="menu-icon fas fa-bars"></i><span class="menu-category">{{ $t('menu.' + menu.menuName) }}</span>
               </button>
 
               <div class="collapse show" :id="menu.menuId">
@@ -49,7 +75,7 @@
                   v-for="item in menu.menuList"
                   v-bind:key="item.name" 
                   :to="item.path">
-                  <i class="menu-icon fas" :class="item.icon"></i><span class="menu-text">{{ item.name }}</span>
+                  <i class="menu-icon fas" :class="item.icon"></i><span class="menu-text">{{ $t('menu.' + item.name) }}</span>
                 </router-link>
               </div>
             </div>
@@ -97,7 +123,12 @@ export default {
       await this.$store.dispatch('auth/logout');
 
       this.$router.push({name: 'login'});
-    }
+    },
+
+    changeLocale(locale) {
+      this.$i18n.locale = locale;
+      localStorage.setItem('locale', locale);
+    },
   }
 }
 </script>

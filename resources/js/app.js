@@ -22,6 +22,7 @@ window.Vue = require('vue');
 import App from '@/views/App'
 import router from './router'
 import store from  './store'
+import { createI18n } from './i18n'
 import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'
 import Paginate from 'vuejs-paginate'
@@ -56,11 +57,15 @@ Vue.component('Paginate', Paginate)
 
 const createApp = async() => {
     await store.dispatch('auth/currentUser');
+
+    let locale = localStorage.getItem('locale') ?? 'en';
+    const i18n = createI18n(locale);
     
     new Vue({
         el: '#app',
         router,
         store,
+        i18n,
         components: { App },
         template: '<App/>'
     });

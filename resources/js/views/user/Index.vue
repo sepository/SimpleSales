@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="d-flex bd-highlight">
-      <h1 class="bd-highlight mx-auto">ユーザ管理</h1>
+      <h1 class="bd-highlight mx-auto">
+        {{ $t('user.title') }}
+      </h1>
     </div>
 
     <div class="d-flex bd-highlight">
@@ -10,13 +12,19 @@
           <label class="sr-only" for="keyword">Keyword</label>
           <div class="input-group">
             <div class="input-group-prepend">
-              <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">フィルタ</button>
+              <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ $t('common.filter') }}
+              </button>
               <div class="dropdown-menu border-secondary p-3">
-                <h6 class="dropdown-header pl-0">権限</h6>
+                <h6 class="dropdown-header pl-0">
+                  {{ $t('user.authority') }}
+                </h6>
                 <div class="dropdown-item p-0">
                   <BaseRadio id="is-admin" v-model.number="filter.is_admin" :items="isAdminItems" @change-after="search"></BaseRadio>
                 </div>
-                <h6 class="dropdown-header pl-0">利用停止中のユーザ</h6>
+                <h6 class="dropdown-header pl-0">
+                  {{ $t('user.suspended_user') }}
+                </h6>
                 <div class="dropdown-item p-0">
                   <BaseRadio id="include-suspended-user" v-model.number="filter.include_suspended_user" :items="includeSuspendedUserItems" @change-after="search"></BaseRadio>
                 </div>
@@ -29,7 +37,9 @@
 
       <div class="bd-hightlight ml-auto" v-if="getAuthUser.is_admin == 1">
         <router-link :to="{name: 'user.register'}">
-          <button class="btn btn-primary m-1">新規</button>
+          <button class="btn btn-primary m-1">
+            {{ $t('common.new') }}
+          </button>
         </router-link>
       </div>
     </div>
@@ -39,9 +49,15 @@
         <table class="table table-hover m-0">
           <thead>
             <tr class="table-secondary">
-              <td scope="col" class="border-0">ユーザ名</td>
-              <td scope="col" class="border-0">メールアドレス</td>
-              <td scope="col" class="border-0">権限</td>
+              <td scope="col" class="border-0">
+                {{ $t('user.name') }}
+              </td>
+              <td scope="col" class="border-0">
+                {{ $t('user.email') }}
+              </td>
+              <td scope="col" class="border-0">
+                {{ $t('user.authority') }}
+              </td>
               <td scope="col" class="border-0" v-if="getAuthUser.is_admin == 1"></td>
             </tr>
           </thead>
@@ -50,10 +66,14 @@
             <tr v-for="user in getUsers" v-bind:key="user.id">
               <td class="align-middle">{{ user.name }}</td>
               <td class="align-middle">{{ user.email }}</td>
-              <td class="align-middle">{{ user.is_admin ? "管理者" : "一般" }}</td>
+              <td class="align-middle">{{ user.is_admin ? $t('user.authorities.admin') : $t('user.authorities.ordinary') }}</td>
               <td class="align-middle text-right" v-if="getAuthUser.is_admin == 1">
-                <button class="btn btn-danger mx-1" v-if="user.is_suspended == 0" @click="suspend(user)">利用停止</button>
-                <button class="btn btn-success mx-1" v-else @click="resume(user)">利用再開</button>
+                <button class="btn btn-danger mx-1" v-if="user.is_suspended == 0" @click="suspend(user)">
+                  {{ $t('user.suspend') }}
+                </button>
+                <button class="btn btn-success mx-1" v-else @click="resume(user)">
+                  {{ $t('user.resume') }}
+                </button>
               </td>
             </tr>
           </tbody>
@@ -83,15 +103,6 @@ export default {
         per: 10,
         current: 1
       },
-      isAdminItems: [
-        { value: 2, caption: "全て" },
-        { value: 1, caption: "管理者" },
-        { value: 0, caption: "一般" },
-      ],
-      includeSuspendedUserItems: [
-        { value: 1, caption: "含める" },
-        { value: 0, caption: "含めない" },
-      ]
     }
   },
 
@@ -110,7 +121,7 @@ export default {
     },
 
     suspend(user) {
-      if (confirm(user.name + "さんの利用を停止します。")) {
+      if (confirm(this.$t('user.message.confirm_suspend', [user.name]))) {
         axios.put('/api/user/suspend/' + user.id).then(res => {
           this.search();
         });
@@ -118,7 +129,7 @@ export default {
     },
 
     resume(user) {
-      if (confirm(user.name + "さんの利用を再開します。")) {
+      if (confirm(this.$t('user.message.confirm_resume', [user.name]))) {
         axios.put('/api/user/resume/' + user.id).then(res => {
           this.search();
         });
@@ -143,7 +154,22 @@ export default {
 
     getAuthUser() {
       return this.$store.getters['auth/user'];
-    }
+    },
+
+    isAdminItems() {
+      return [
+        { value: 2, caption: this.$t('user.authorities.all') },
+        { value: 1, caption: this.$t('user.authorities.admin') },
+        { value: 0, caption: this.$t('user.authorities.ordinary') },
+      ];
+    },
+
+    includeSuspendedUserItems() {
+      return [
+        { value: 1, caption: this.$t('common.include') },
+        { value: 0, caption: this.$t('common.exclude') },
+      ];
+    },
   },
 
   mounted() {
