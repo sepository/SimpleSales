@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -15,16 +16,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// 言語切り替え
+Route::post('/locale/{locale}', 'LocaleController@setLocale');
+
 // 認証済ユーザ取得
 Route::get('/user', function(Request $request) {
     return Auth::user();
 });
 
-// 認証不要
+// 認証関連機能
 Route::post('/login', 'LoginController@login');
 Route::post('/logout', 'LoginController@logout');
 
-// 認証必須
+// 認証必須機能
 Route::middleware('auth:sanctum')->group(function() {
     // ユーザ
     Route::get('/user/list', 'UserController@index');
@@ -53,7 +57,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::put('/unit/{unit}', 'UnitController@update');
 });
  
-// 認証必須且つ管理者権限
+// 認証必須且つ管理者専用機能
 Route::middleware('auth:sanctum', 'can:admin-only')->group(function() {
     // ユーザ
     Route::post('/user/register', 'Auth\RegisterController@register');

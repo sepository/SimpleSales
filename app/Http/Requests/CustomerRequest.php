@@ -30,22 +30,4 @@ class CustomerRequest extends FormRequest
             'tel_no'        => 'max:20'
         ];
     }
-
-    public function messages()
-    {
-        return [
-            'required'  => ':attributeは必須項目です。',
-            'max'       => ':attributeは:max文字以内にしてください。'
-        ];
-    }
-
-    public function attributes()
-    {
-        return [
-            'name'          => '名称',
-            'postal_code'   => '郵便番号',
-            'address'       => '住所・宛先',
-            'tel_no'        => '電話番号'
-        ];
-    }
 }

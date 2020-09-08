@@ -24,25 +24,9 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'  => 'required',
-            'price' => 'required',
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'required'  => ':attributeは必須項目です。',
-        ];
-    }
-
-    public function attributes()
-    {
-        return [
-            'name'      => '名称',
-            'price'     => '単価',
-            'unit_id'   => '単位',
-            'summary'   => '概要'
+            'name'      => 'required|max:100',
+            'price'     => 'required|numeric|max:9999999',
+            'summary'   => 'max:300',
         ];
     }
 }

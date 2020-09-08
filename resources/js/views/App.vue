@@ -132,6 +132,10 @@ export default {
     },
 
     changeLocale(locale) {
+      axios.post('/api/locale/' + locale)
+        .catch(ex => {
+          locale = 'en';
+        });
       this.$i18n.locale = locale;
       localStorage.setItem('locale', locale);
     },

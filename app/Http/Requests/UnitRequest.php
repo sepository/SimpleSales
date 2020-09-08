@@ -27,20 +27,4 @@ class UnitRequest extends FormRequest
             'name' => 'required|unique:units|max:10'
         ];
     }
-
-    public function messages()
-    {
-        return [
-            'required'  => ':attributeは必須項目です。',
-            'unique'    => '同じ:attributeの単位が既に存在します。',
-            'max'       => ':attributeは:max文字以内にしてください。'
-        ];
-    }
-
-    public function attributes()
-    {
-        return [
-            'name' => '名称'
-        ];
-    }
 }

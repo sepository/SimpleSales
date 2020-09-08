@@ -58,16 +58,11 @@ class RegisterController extends Controller
                 'name'      => ['required', 'string', 'max:255'],
                 'email'     => ['required', 'string', 'email', 'max:255', 'unique:users'],
                 'password'  => ['required', 'string', 'min:8', 'confirmed'],
-                'is_admin'  => ['required', 'numeric'],
+                'is_admin'  => ['required', 'boolean'],
             ],
+            [],
             [
-                'required'  => ':attributeは必須項目です。',
-            ],
-            [
-                'name'      => 'ユーザ名',
-                'email'     => 'メールアドレス',
-                'password'  => 'パスワード',
-                'is_admin'  => '管理者権限',
+                'name'      => __('attributes.user_name'),
             ]
         );
     }
