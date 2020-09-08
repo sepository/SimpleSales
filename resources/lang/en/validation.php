@@ -147,15 +147,20 @@ return [
     */
 
     'attributes' => [
-        'address'       => 'Address',
-        'email'         => 'Mail Address',
-        'name'          => 'Name',
-        'password'      => 'Password',
-        'postal_code'   => 'Postal Code',
-        'price'         => 'Price',
-        'summary'       => 'Summary',
-        'tel_no'        => 'Phone No.',
-        'unit_id'       => 'Unit',
+        'address'           => 'Address',
+        'customer_id'       => 'Customer',
+        'email'             => 'Mail Address',
+        'invoice_date'      => 'Invoice Date',
+        'invoice_no'        => 'Invoice No.',
+        'name'              => 'Name',
+        'password'          => 'Password',
+        'payment_due_date'  => 'Payment Due Date',
+        'postal_code'       => 'Postal Code',
+        'price'             => 'Price',
+        'remarks'           => 'Remarks',
+        'summary'           => 'Summary',
+        'tel_no'            => 'Phone No.',
+        'unit_id'           => 'Unit',
     ],
 
 ];

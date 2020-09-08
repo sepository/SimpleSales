@@ -4,9 +4,11 @@
         "menuName": "works",
         "menuList": [
             {
-                "name": "準備中...",
-                "path": "/",
-                "icon": "fa-wrench"
+                "name": "invoices",
+                "path": {
+                    "name": "invoice.index"
+                },
+                "icon": "fa-file-alt"
             }
         ]
     },

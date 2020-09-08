@@ -31,6 +31,7 @@ export default {
     products:   "Products",
     units:      "Units",
     users:      "Users",
+    invoices:   "Invoices",
   },
 
   login: {
@@ -84,5 +85,16 @@ export default {
       confirm_suspend:      "The use of {0} will be suspended.",
       confirm_resume:       "The use of {0} will be resumed.",
     },
+  },
+
+  invoice: {
+    title:            "Invoices",
+    new:              "New Invoice",
+    edit:             "Edit Invoice",
+    customer:         "Customer",
+    invoice_no:       "Invoice No.",
+    invoice_date:     "Invoice Date",
+    payment_due_date: "Payment Due Date",
+    remarks:          "Remarks",
   },
 }

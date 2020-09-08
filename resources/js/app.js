@@ -26,6 +26,7 @@ import { createI18n } from './i18n'
 import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'
 import Paginate from 'vuejs-paginate'
+import DatePicker from 'vuejs-datepicker'
 
 // commonフォルダから共通コンポーネント取得
 const requireComponent = require.context(
@@ -48,6 +49,10 @@ requireComponent.keys().forEach(fileName => {
 
 // コンポーネントのグローバル登録
 Vue.component('Paginate', Paginate)
+Vue.component('DatePicker', DatePicker)
+
+// ライブラリ読み込み
+Vue.use(require('vue-moment'))
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

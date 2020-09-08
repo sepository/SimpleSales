@@ -55,6 +55,10 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('/unit', 'UnitController@index');
     Route::post('/unit', 'UnitController@create');
     Route::put('/unit/{unit}', 'UnitController@update');
+
+    // 請求
+    Route::get('/invoice', 'InvoiceController@index');
+    Route::post('/invoice', 'InvoiceController@create');
 });
  
 // 認証必須且つ管理者専用機能

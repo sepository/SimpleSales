@@ -155,15 +155,20 @@ return [
     */
 
     'attributes' => [
-        'address'       => '住所・宛先',
-        'email'         => 'メールアドレス',
-        'name'          => '名称',
-        'password'      => 'パスワード',
-        'postal_code'   => '郵便番号',
-        'price'         => '単価',
-        'summary'       => '概要',
-        'tel_no'        => '電話番号',
-        'unit_id'       => '単位',
+        'address'           => '住所・宛先',
+        'customer_id'       => '取引先',
+        'email'             => 'メールアドレス',
+        'invoice_date'      => '請求日',
+        'invoice_no'        => '請求書番号',
+        'name'              => '名称',
+        'password'          => 'パスワード',
+        'payment_due_date'  => '支払期限',
+        'postal_code'       => '郵便番号',
+        'price'             => '単価',
+        'remarks'           => '備考',
+        'summary'           => '概要',
+        'tel_no'            => '電話番号',
+        'unit_id'           => '単位',
     ],
 
 ];

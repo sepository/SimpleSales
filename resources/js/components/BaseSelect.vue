@@ -6,11 +6,18 @@
       :id="id"
       :value="value"
       :class="inputClass"
-      @change="$emit('input', Number($event.target.value))">
+      @change="onChange($event.target.value)">
+      <option
+        v-if="hasEmptyItem"
+        :value="emptyItem.value"
+      >
+        {{ emptyItem.caption }}
+      </option>
       <option
         v-for="item in items"
         v-bind:key="item[itemValue]"
-        v-bind:value="item[itemValue]">
+        v-bind:value="item[itemValue]"
+      >
         {{ item[itemCaption] }}
       </option>
     </select>
@@ -54,10 +61,24 @@ export default {
       default: "caption"
     },
 
+    hasEmptyItem: {
+      type: Boolean,
+      default: true
+    },
+
     formGroupClass: {
       type: String,
       default: ""
     },
+  },
+
+  data() {
+    return {
+      emptyItem: {
+        value: null,
+        caption: ""
+      }
+    }
   },
 
   computed: {
@@ -67,5 +88,12 @@ export default {
       };
     }
   },
+
+  methods: {
+    onChange(value) {
+      this.$emit('input', Number(value));
+      this.$emit('change-after')
+    }
+  }
 }
 </script>

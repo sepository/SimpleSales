@@ -31,6 +31,7 @@ export default {
     products:   "商品",
     units:      "単位",
     users:      "ユーザ",
+    invoices:   "請求",
   },
 
   login: {
@@ -84,5 +85,16 @@ export default {
       confirm_suspend:      "{0}さんの利用を停止します。",
       confirm_resume:       "{0}さんの利用を再開します。",
     },
+  },
+
+  invoice: {
+    title:            "請求",
+    new:              "請求書登録",
+    edit:             "請求書編集",
+    customer:         "取引先",
+    invoice_no:       "請求書番号",
+    invoice_date:     "請求日",
+    payment_due_date: "支払期限",
+    remarks:          "備考",
   },
 }
