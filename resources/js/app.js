@@ -23,6 +23,7 @@ import App from '@/views/App'
 import router from './router'
 import store from  './store'
 import { createI18n } from './i18n'
+import utils from './utils'
 import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'
 import Paginate from 'vuejs-paginate'
@@ -53,6 +54,7 @@ Vue.component('DatePicker', DatePicker)
 
 // ライブラリ読み込み
 Vue.use(require('vue-moment'))
+Vue.mixin(utils)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

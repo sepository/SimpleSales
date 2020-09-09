@@ -9,6 +9,7 @@
       :value="value"
       :format="format"
       :input-class="inputClass"
+      :language="language"
       bootstrap-styling
       typeable
       @input="onInput($event)"
@@ -26,6 +27,7 @@
 </template>
 
 <script>
+import {en, ja} from 'vuejs-datepicker/dist/locale'
 export default {
   props: {
     id: {
@@ -60,6 +62,17 @@ export default {
       return {
         'is-invalid': this.errors
       }
+    },
+
+    language() {
+      let locale = this.$i18n.locale;
+      let language = en;
+      switch (locale) {
+        case 'ja':
+          language = ja;
+          break;
+      }
+      return language;
     },
   },
 

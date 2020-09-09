@@ -26,6 +26,26 @@ class InvoiceController extends Controller
             $invoices->where('customer_id', $customer_id);
         }
 
+        $invoice_date_from = $request->invoice_date_from;
+        if ($invoice_date_from) {
+            $invoices->where('invoice_date', '>=', $invoice_date_from);
+        }
+
+        $invoice_date_to = $request->invoice_date_to;
+        if ($invoice_date_to) {
+            $invoices->where('invoice_date', '<=', $invoice_date_to);
+        }
+
+        $payment_due_date_from = $request->payment_due_date_from;
+        if ($payment_due_date_from) {
+            $invoices->where('payment_due_date', '>=', $payment_due_date_from);
+        }
+
+        $payment_due_date_to = $request->payment_due_date_to;
+        if ($payment_due_date_to) {
+            $invoices->where('payment_due_date', '<=', $payment_due_date_to);
+        }
+
         return $invoices->get();
     }
 

@@ -45,7 +45,7 @@
     <div id="collapseFilter" class="collapse">
       <div class="card card-body">
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-lg-4 col-md-6">
             <BaseSelect
               id="customer_id"
               v-model.number="filter.customer_id"
@@ -56,6 +56,56 @@
               @change-after="search"
             />
           </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="d-flex">
+              <BaseDatePicker
+                id="invoice_date_from"
+                v-model="filter.invoice_date_from"
+                :title="$t('invoice.invoice_date')"
+              />
+              <div class="form-group align-self-end">
+                <span class="form-control border-0">~</span>
+              </div>
+              <BaseDatePicker
+                id="invoice_date_to"
+                v-model="filter.invoice_date_to"
+                form-group-class="align-self-end"
+              />
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="d-flex">
+              <BaseDatePicker
+                id="payment_due_date_from"
+                v-model="filter.payment_due_date_from"
+                :title="$t('invoice.payment_due_date')"
+              />
+              <div class="form-group align-self-end">
+                <span class="form-control border-0">~</span>
+              </div>
+              <BaseDatePicker
+                id="payment_due_date_to"
+                v-model="filter.payment_due_date_to"
+                form-group-class="align-self-end"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex">
+          <button
+            type="button"
+            class="btn btn-primary ml-auto"
+            data-toggle="collapse"
+            data-target="#collapseFilter"
+            aria-expanded="false"
+            aria-controls="collapseFilter"
+            @click="search"
+          >
+            {{ $t('common.search') }}
+          </button>
         </div>
       </div>
     </div>
@@ -110,7 +160,7 @@
 
     <div class="d-flex bd-highlight mt-3">
       <div class="bd-highlight ml-auto">
-        <BasePaginate :pageCount="getPageCount" v-bind:currentPage.sync="currentPage"/>
+        <BasePaginate :pageCount="getPageCount" v-bind:currentPage.sync="paginate.current"/>
       </div>
     </div>
   </div>
@@ -121,8 +171,12 @@ export default {
   data() {
     return {
       filter: {
-        keyword: "",
-        customer_id: null,
+        keyword:                "",
+        customer_id:            null,
+        invoice_date_from:      null,
+        invoice_date_to:        null,
+        payment_due_date_from:  null,
+        payment_due_date_to:    null,
       },
       paginate: {
         per: 10,
@@ -138,8 +192,12 @@ export default {
     search() {
       axios.get('/api/invoice', {
         params: {
-          keyword:      this.filter.keyword,
-          customer_id:  this.filter.customer_id,
+          keyword:                this.filter.keyword,
+          customer_id:            this.filter.customer_id,
+          invoice_date_from:      this.dateFormat(this.filter.invoice_date_from),
+          invoice_date_to:        this.dateFormat(this.filter.invoice_date_to),
+          payment_due_date_from:  this.dateFormat(this.filter.payment_due_date_from),
+          payment_due_date_to:    this.dateFormat(this.filter.payment_due_date_to),
         }
       })
       .then(res => {
