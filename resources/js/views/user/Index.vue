@@ -1,132 +1,85 @@
 <template>
-  <div>
-    <div class="d-flex bd-highlight">
-      <h1 class="bd-highlight mx-auto">
-        {{ $t('user.title') }}
-      </h1>
-    </div>
+  <TheIndex
+    ref="index"
+    :title="$t('user.title')"
+    :filter-enabled="true"
+    :link-to-new="getAuthUser.is_admin == 1 ? {name: 'user.register'} : ''"
+    :on-submit="onSubmit"
+  >
+    <template v-slot:filters>
+      <TheIndexFilterItem>
+        <BaseRadio
+          id="is-admin"
+          v-model.number="filter.is_admin"
+          :title="$t('user.authority')"
+          :items="isAdminItems"
+        />
+      </TheIndexFilterItem>
 
-    <div class="d-flex bd-highlight">
-      <div class="bd-highlight">
-        <form class="form-inline" @submit.prevent="search">
-          <label class="sr-only" for="keyword">Keyword</label>
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{ $t('common.filter') }}
-              </button>
-              <div class="dropdown-menu border-secondary p-3">
-                <h6 class="dropdown-header pl-0">
-                  {{ $t('user.authority') }}
-                </h6>
-                <div class="dropdown-item p-0">
-                  <BaseRadio
-                    id="is-admin"
-                    v-model.number="filter.is_admin"
-                    :items="isAdminItems"
-                    @change-after="search"
-                  />
-                </div>
-                <h6 class="dropdown-header pl-0">
-                  {{ $t('user.suspended_user') }}
-                </h6>
-                <div class="dropdown-item p-0">
-                  <BaseRadio
-                    id="include-suspended-user"
-                    v-model.number="filter.include_suspended_user"
-                    :items="includeSuspendedUserItems"
-                    @change-after="search"
-                  />
-                </div>
-              </div>
-            </div>
-            <input id="keyword" v-model="filter.keyword" type="text" class="form-control">
-          </div>
-        </form>
-      </div>
+      <TheIndexFilterItem>
+        <BaseRadio
+          id="include-suspended-user"
+          v-model.number="filter.include_suspended_user"
+          :title="$t('user.suspended_user')"
+          :items="includeSuspendedUserItems"
+        />
+      </TheIndexFilterItem>
+    </template>
 
-      <div v-if="getAuthUser.is_admin == 1" class="bd-hightlight ml-auto">
-        <router-link :to="{name: 'user.register'}">
-          <button class="btn btn-primary m-1">
-            {{ $t('common.new') }}
+    <TheIndexSearchResult :columns="columns">
+      <tr v-for="user in getPageUsers" v-bind:key="user.id">
+        <td class="align-middle">
+          {{ user.name }}
+        </td>
+        <td class="align-middle">
+          {{ user.email }}
+        </td>
+        <td class="align-middle">
+          {{ user.is_admin ? $t('user.authorities.admin') : $t('user.authorities.ordinary') }}
+        </td>
+        <td v-if="getAuthUser.is_admin == 1" class="align-middle text-right">
+          <button v-if="user.is_suspended == 0" class="btn btn-danger mx-1" @click="suspend(user)">
+            {{ $t('user.suspend') }}
           </button>
-        </router-link>
-      </div>
-    </div>
+          <button v-else class="btn btn-success mx-1" @click="resume(user)">
+            {{ $t('user.resume') }}
+          </button>
+        </td>
+      </tr>
+    </TheIndexSearchResult>
 
-    <div class="card p-0 mt-2">
-      <div class="table-responsive">
-        <table class="table table-hover m-0">
-          <thead>
-            <tr class="table-secondary">
-              <th scope="col" class="border-0">
-                {{ $t('user.name') }}
-              </th>
-              <th scope="col" class="border-0">
-                {{ $t('user.email') }}
-              </th>
-              <th scope="col" class="border-0">
-                {{ $t('user.authority') }}
-              </th>
-              <th v-if="getAuthUser.is_admin == 1" scope="col" class="border-0"></th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr v-for="user in getUsers" v-bind:key="user.id">
-              <td class="align-middle">
-                {{ user.name }}
-              </td>
-              <td class="align-middle">
-                {{ user.email }}
-              </td>
-              <td class="align-middle">
-                {{ user.is_admin ? $t('user.authorities.admin') : $t('user.authorities.ordinary') }}
-              </td>
-              <td v-if="getAuthUser.is_admin == 1" class="align-middle text-right">
-                <button v-if="user.is_suspended == 0" class="btn btn-danger mx-1" @click="suspend(user)">
-                  {{ $t('user.suspend') }}
-                </button>
-                <button v-else class="btn btn-success mx-1" @click="resume(user)">
-                  {{ $t('user.resume') }}
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="d-flex bd-highlight mt-3">
-      <div class="bd-highlight ml-auto">
-        <BasePaginate :pageCount="getPageCount" v-bind:currentPage.sync="page.current"/>
-      </div>
-    </div>
-  </div>
+    <template v-slot:paginate>
+      <BasePaginate :pageCount="getPageCount" v-bind:currentPage.sync="paginate.current"/>
+    </template>
+  </TheIndex>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      users: [],
       filter: {
-        keyword: "",
         is_admin: 2,
         include_suspended_user: 0
       },
-      page: {
+      paginate: {
         per: 10,
         current: 1
       },
+
+      users: [],
     }
   },
 
   methods: {
     search() {
+      this.$refs.index.submit();
+    },
+
+    onSubmit(keyword = "") {
       axios.get('/api/user/search', {
         params: {
-          keyword: this.filter.keyword,
+          keyword: keyword,
           is_admin: this.filter.is_admin,
           include_suspended_user: this.filter.include_suspended_user
         }
@@ -153,19 +106,33 @@ export default {
     },
 
     clickPaginate(pageNum) {
-      this.currentPage = Number(pageNum);
+      this.paginate.current = Number(pageNum);
     }
   },
 
   computed: {
-    getUsers() {
-      let current = this.page.current * this.page.per;
-      let start = current - this.page.per;
+    columns() {
+      let columns = [
+        this.$t('user.name'),
+        this.$t('user.email'),
+        this.$t('user.authority'),
+      ];
+
+      if (this.getAuthUser.is_admin == 1) {
+        columns.push("");
+      }
+
+      return columns;
+    },
+
+    getPageUsers() {
+      let current = this.paginate.current * this.paginate.per;
+      let start = current - this.paginate.per;
       return this.users.slice(start, current);
     },
 
     getPageCount() {
-      return Math.ceil(this.users.length / this.page.per);
+      return Math.ceil(this.users.length / this.paginate.per);
     },
 
     getAuthUser() {
