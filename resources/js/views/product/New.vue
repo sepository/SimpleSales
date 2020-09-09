@@ -1,55 +1,42 @@
 <template>
-  <div class="container">
-    <div class="mx-auto mb-2" style="max-width: 600px">
-      <BackButton :route="'product.index'"/>
+  <EditForm
+    :title="$t('product.new')"
+    :link-to-back="{name: 'product.index'}"
+    :on-submit="create"
+    :submit-text="$t('common.save')"
+  >
+    <BaseText
+      id="name"
+      v-model="name"
+      :title="$t('product.name')"
+      :errors="errors.name"
+    />
+    <div class="form-row">
+      <BaseNumber
+        id="price"
+        v-model.number="price"
+        :title="$t('product.price')"
+        :errors="errors.price"
+        form-group-class="col-md-6"
+      />
+      <BaseSelect
+        id="unit"
+        v-model.number="unit_id"
+        :title="$t('product.unit')"
+        :errors="errors.unit_id"
+        :items="units"
+        item-value="id"
+        item-caption="name"
+        form-group-class="col-md-6"
+      />
     </div>
-
-    <div class="card mx-auto" style="max-width: 600px">
-      <div class="card-header bg-secondary text-light text-center">
-        {{ $t('product.new') }}
-      </div>
-      <div class="card-body">
-        <form @submit.prevent="createProduct">
-          <BaseText
-            id="name"
-            v-model="name"
-            :title="$t('product.name')"
-            :errors="errors.name"
-          />
-          <div class="form-row">
-            <BaseNumber
-              id="price"
-              v-model.number="price"
-              :title="$t('product.price')"
-              :errors="errors.price"
-              form-group-class="col-md-6"
-            />
-            <BaseSelect
-              id="unit"
-              v-model.number="unit_id"
-              :title="$t('product.unit')"
-              :errors="errors.unit_id"
-              :items="units"
-              item-value="id"
-              item-caption="name"
-              form-group-class="col-md-6"
-            />
-          </div>
-          <BaseTextArea
-            id="summary"
-            v-model="summary"
-            :title="$t('product.summary')"
-            :errors="errors.summary"
-          />
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary">
-              {{ $t('common.regist') }}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+    <BaseTextArea
+      id="summary"
+      v-model="summary"
+      :title="$t('product.summary')"
+      :errors="errors.summary"
+    />
+  </EditForm>
 </template>
 
 <script>
@@ -66,13 +53,13 @@ export default {
   },
 
   methods: {
-    getUnits() {
+    init() {
       axios.get('/api/unit').then(res => {
         this.units = res.data;
       });
     },
 
-    createProduct() {
+    create() {
       axios.post('/api/product', {
         name: this.name,
         price: this.price,
@@ -87,7 +74,7 @@ export default {
   },
 
   mounted() {
-    this.getUnits();
+    this.init();
   }
 }
 </script>

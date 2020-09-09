@@ -1,62 +1,48 @@
 <template>
-  <div class="container" style="max-width: 600px">
-    <div class="mx-auto mb-2">
-      <BackButton :route="'invoice.index'"/>
+  <EditForm
+    :title="$t('invoice.new')"
+    :link-to-back="{name: 'invoice.index'}"
+    :on-submit="create"
+    :submit-text="$t('common.regist')"
+  >
+    <BaseSelect
+      id="customer_id"
+      v-model="customer_id"
+      :title="$t('invoice.customer')"
+      :errors="errors.customer_id"
+      :items="customers"
+      item-value="id"
+      item-caption="name"
+    />
+    <BaseText
+      id="invoice_no"
+      v-model="invoice_no"
+      :title="$t('invoice.invoice_no')"
+      :errors="errors.invoice_no"
+    />
+    <div class="form-row">
+      <BaseDatePicker
+        id="invoice_date"
+        v-model="invoice_date"
+        :title="$t('invoice.invoice_date')"
+        :errors="errors.invoice_date"
+        form-group-class="col-md-6"
+      />
+      <BaseDatePicker
+        id="payment_due_date"
+        v-model="payment_due_date"
+        :title="$t('invoice.payment_due_date')"
+        :errors="errors.payment_due_date"
+        form-group-class="col-md-6"
+      />
     </div>
-
-    <div class="card mx-auto">
-      <div class="card-header bg-secondary text-light text-center">
-        {{ $t('invoice.new') }}
-      </div>
-
-      <div class="card-body">
-        <form @submit.prevent="create">
-          <BaseSelect
-            id="customer_id"
-            v-model="customer_id"
-            :title="$t('invoice.customer')"
-            :errors="errors.customer_id"
-            :items="customers"
-            item-value="id"
-            item-caption="name"
-          />
-          <BaseText
-            id="invoice_no"
-            v-model="invoice_no"
-            :title="$t('invoice.invoice_no')"
-            :errors="errors.invoice_no"
-          />
-          <div class="form-row">
-            <BaseDatePicker
-              id="invoice_date"
-              v-model="invoice_date"
-              :title="$t('invoice.invoice_date')"
-              :errors="errors.invoice_date"
-              form-group-class="col-md-6"
-            />
-            <BaseDatePicker
-              id="payment_due_date"
-              v-model="payment_due_date"
-              :title="$t('invoice.payment_due_date')"
-              :errors="errors.payment_due_date"
-              form-group-class="col-md-6"
-            />
-          </div>
-          <BaseTextArea
-            id="remarks"
-            v-model="remarks"
-            :title="$t('invoice.remarks')"
-            :errors="errors.remarks"
-          />
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary">
-              {{ $t('common.regist') }}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+    <BaseTextArea
+      id="remarks"
+      v-model="remarks"
+      :title="$t('invoice.remarks')"
+      :errors="errors.remarks"
+    />
+  </EditForm>
 </template>
 
 <script>

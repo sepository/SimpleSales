@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{name: route}">
+  <router-link :to="linkTo">
     <button class="btn btn-outline-primary">
       <i class="fas fa-angle-left"></i> {{ $t('common.back') }}
     </button>
@@ -9,7 +9,9 @@
 <script>
 export default {
   props: {
-    route: String
+    linkTo: {
+      type: Object
+    },
   }
 }
 </script>
