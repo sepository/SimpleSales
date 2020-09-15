@@ -59,6 +59,8 @@ Route::middleware('auth:sanctum')->group(function() {
     // 請求
     Route::get('/invoice', 'InvoiceController@index');
     Route::post('/invoice', 'InvoiceController@create');
+    Route::get('/invoice/{invoice}', 'InvoiceController@show');
+    Route::put('/invoice/{invoice}', 'InvoiceController@update');
 });
  
 // 認証必須且つ管理者専用機能

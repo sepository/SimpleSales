@@ -12,8 +12,12 @@ export default {
     filter:   "フィルタ",
     include:  "含める",
     exclude:  "含めない",
+    undo:     "元に戻す",
     message: {
       confirm_delete: "{0}を削除してもよろしいでしょうか？",
+    },
+    notify: {
+      saved: "保存しました。",
     },
   },
 
@@ -91,10 +95,22 @@ export default {
     title:            "請求",
     new:              "請求書登録",
     edit:             "請求書編集",
+    tabs: {
+      head:           "請求先",
+      detail:         "明細"
+    },
     customer:         "取引先",
     invoice_no:       "請求書番号",
     invoice_date:     "請求日",
     payment_due_date: "支払期限",
     remarks:          "備考",
+    item: {
+      id:             "#",
+      product:        "商品",
+      price:          "単価",
+      quantity:       "数量",
+      amount:         "金額",
+      remarks:        "備考",
+    },
   },
 }

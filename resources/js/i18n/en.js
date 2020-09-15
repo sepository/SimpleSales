@@ -12,8 +12,12 @@ export default {
     filter:   "Filter",
     include:  "Include",
     exclude:  "Exclude",
+    undo:     "Undo",
     message: {
       confirm_delete: "Are you sure want to delete {0}?",
+    },
+    notify: {
+      saved: "Saved it.",
     },
   },
 
@@ -91,10 +95,22 @@ export default {
     title:            "Invoices",
     new:              "New Invoice",
     edit:             "Edit Invoice",
+    tabs: {
+      head:           "Billing to",
+      detail:         "Details",
+    },
     customer:         "Customer",
     invoice_no:       "Invoice No.",
     invoice_date:     "Invoice Date",
     payment_due_date: "Payment Due Date",
     remarks:          "Remarks",
+    item: {
+      id:             "#",
+      product:        "Product",
+      price:          "Price",
+      quantity:       "Quantity",
+      amount:         "Amount",
+      remarks:        "Remarks",
+    },
   },
 }

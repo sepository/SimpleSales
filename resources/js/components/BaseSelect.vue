@@ -1,6 +1,11 @@
 <template>
   <div class="form-group" :class="formGroupClass">
-    <label :for="id">{{ title }}</label>
+    <label
+      v-if="title"
+      :for="id"
+    >
+      {{ title }}
+    </label>
     <select 
       class="form-control"
       :id="id"
@@ -15,7 +20,7 @@
       </option>
       <option
         v-for="item in items"
-        v-bind:key="item[itemValue]"
+        v-bind:key="`${id}-${item[itemValue]}`"
         v-bind:value="item[itemValue]"
       >
         {{ item[itemCaption] }}

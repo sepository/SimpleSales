@@ -1,6 +1,11 @@
 <template>
   <div class="form-group" :class="formGroupClass">
-    <label :for="id">{{ title }}</label>
+    <label
+      v-if="title"
+      :for="id"
+    >
+      {{ title }}
+    </label>
     <input 
       class="form-control" 
       type="text" 

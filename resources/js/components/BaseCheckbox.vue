@@ -8,7 +8,13 @@
         :checked="value"
         :class="inputClass"
         @change="$emit('input', $event.target.checked ? 1 : 0)">
-      <label class="form-check-label" :for="id">{{ title }}</label>
+      <label
+        v-if="title"
+        class="form-check-label" 
+        :for="id"
+      >
+        {{ title }}
+      </label>
     </div>
     <div class="invalid-feedback" v-for="error in errors" v-bind:key="error">
       {{ error }}
@@ -44,13 +50,21 @@ export default {
       type: String,
       default: ""
     },
+
+    formCheckInputClass: {
+      type: String,
+      default: ""
+    },
   },
 
   computed: {
     inputClass() {
-      return {
-        'is-invalid': this.errors
-      };
+      return [
+        {
+          'is-invalid': this.errors,
+        },
+        this.formCheckInputClass,
+      ];
     }
   }
 }

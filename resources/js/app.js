@@ -28,6 +28,7 @@ import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'
 import Paginate from 'vuejs-paginate'
 import DatePicker from 'vuejs-datepicker'
+import Toasted from 'vue-toasted'
 
 // commonフォルダから共通コンポーネント取得
 const requireComponent = require.context(
@@ -53,6 +54,7 @@ Vue.component('Paginate', Paginate)
 Vue.component('DatePicker', DatePicker)
 
 // ライブラリ読み込み
+Vue.use(Toasted)
 Vue.use(require('vue-moment'))
 Vue.mixin(utils)
 

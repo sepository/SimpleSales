@@ -1,13 +1,19 @@
 <template>
   <div class="form-group" :class="formGroupClass">
-    <label :for="id">{{ title }}</label>
+    <label
+      v-if="title"
+      :for="id"
+    >
+      {{ title }}
+    </label>
     <input
       class="form-control"
       type="number"
       :id="id"
       :value="value"
+      :disabled="disabled"
       :class="inputClass"
-      @input="$emit('input', Number($event.target.value))">
+      @input="onInput($event.target.value)">
     <div class="invalid-feedback" v-for="error in errors" v-bind:key="error">
       {{ error }}
     </div>
@@ -26,7 +32,15 @@ export default {
     },
 
     value: {
-      type: Number    
+      type: [Number, String],
+      validator: function (value) {
+        return !isNaN(value);
+      }    
+    },
+
+    disabled: {
+      type: Boolean,
+      default: false
     },
 
     errors: {
@@ -42,9 +56,17 @@ export default {
   computed: {
     inputClass() {
       return {
-        'is-invalid': this.errors
+        'is-invalid': this.errors,
+        'text-right': true,
       };
     }
+  },
+
+  methods: {
+    onInput(value) {
+      this.$emit('input', Number(value));
+      this.$emit('input-after');
+    },
   }
 }
 </script>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Invoice;
 use App\Http\Requests\InvoiceRequest;
+use App\InvoiceItem;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -59,5 +60,25 @@ class InvoiceController extends Controller
         $invoice->payment_due_date = $request->payment_due_date;
         $invoice->remarks = $request->remarks;
         $invoice->save();
+    }
+
+    // 取得
+    public function show(Invoice $invoice)
+    {
+        return $invoice->load('items.product');
+    }
+
+    // 更新
+    public function update(InvoiceRequest $request, Invoice $invoice)
+    {
+        $invoice->update($request->all());
+
+        InvoiceItem::where('invoice_id', $invoice->id)->delete();
+        $invoiceItemsInput = $request->items;
+        foreach ($invoiceItemsInput as $item) {
+            InvoiceItem::create($item);
+        }
+
+        return $invoice;
     }
 }

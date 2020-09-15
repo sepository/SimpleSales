@@ -50,11 +50,9 @@
           {{ dateFormat(invoice.payment_due_date) }}
         </td>
         <td class="align-middle text-right">
-          <router-link to="#">
-            <button class="btn btn-primary mx-1">
-              {{ $t('common.edit') }}
-            </button>
-          </router-link>
+          <ButtonEdit
+            :link-to="{name: 'invoice.edit', params: {invoiceId: String(invoice.id)}}"
+          />
         </td>
       </tr>
     </TheIndexSearchResult>

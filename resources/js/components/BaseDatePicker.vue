@@ -39,7 +39,7 @@ export default {
     },
 
     value: {
-      type: Date
+      type: [String, Date]
     },
 
     errors: {
