@@ -18,6 +18,7 @@ export default {
     },
     notify: {
       saved: "Saved it.",
+      error: "There is an error.",
     },
   },
 

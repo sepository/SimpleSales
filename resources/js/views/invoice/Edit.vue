@@ -111,6 +111,7 @@
                       <BaseSelect
                         :id="`product-id-${item.item_id}`"
                         v-model.number="item.product_id"
+                        :errors="itemErrors[item.item_id - 1] ? itemErrors[item.item_id - 1].product_id : null"
                         :items="products"
                         item-value="id"
                         item-caption="name"
@@ -128,6 +129,7 @@
                     <td class="align-middle">
                       <BaseNumber
                         v-model.number="item.quantity"
+                        :errors="itemErrors[item.item_id - 1] ? itemErrors[item.item_id - 1].quantity : null"
                         form-group-class="m-0"
                         @input-after="calcAmount(item)"
                       />
@@ -135,6 +137,7 @@
                     <td class="align-middle">
                       <BaseNumber
                         :value="item.amount"
+                        :errors="itemErrors[item.item_id - 1] ? itemErrors[item.item_id - 1].amount : null"
                         disabled
                         form-group-class="m-0"
                       />
@@ -142,6 +145,7 @@
                     <td class="align-middle">
                       <BaseText
                         v-model="item.remarks"
+                        :errors="itemErrors[item.item_id - 1] ? itemErrors[item.item_id - 1].remarks : null"
                         form-group-class="m-0"
                       />
                     </td>
@@ -171,6 +175,8 @@
 </template>
 
 <script>
+import toastedOptions from '@/settings/toasted-options'
+
 export default {
   props: {
     invoiceId: {
@@ -199,6 +205,10 @@ export default {
         this.$t('invoice.item.remarks'),
       ];
     },
+
+    itemErrors() {
+      return this.errors.items ? this.errors.items : [];
+    },
   },
 
   watch: {
@@ -224,20 +234,18 @@ export default {
       if (this.invoice.items.length == 0) {
         await this.addItem();
       }
+
+      this.errors = [];
     },
 
     async save() {
       axios.put('/api/invoice/' + this.invoiceId, this.invoice)
         .then(res => {
-          this.$toasted.show(this.$t('common.notify.saved'), {
-            duration: 2000,
-            type: 'success',
-            iconPack: 'fontawesome',
-            icon: 'fa-check-circle',
-            theme: 'bubble'
-          });
+          this.$toasted.show(this.$t('common.notify.saved'), toastedOptions.success);
+          this.errors = [];
         })
         .catch(ex => {
+          this.$toasted.show(this.$t('common.notify.error'), toastedOptions.error);
           this.errors = ex.response.data.errors;
         });
     },

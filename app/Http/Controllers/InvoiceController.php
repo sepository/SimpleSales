@@ -6,6 +6,8 @@ use App\Invoice;
 use App\Http\Requests\InvoiceRequest;
 use App\InvoiceItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class InvoiceController extends Controller
 {
@@ -71,10 +73,36 @@ class InvoiceController extends Controller
     // 更新
     public function update(InvoiceRequest $request, Invoice $invoice)
     {
+        $invoiceItemsInput = $request->items;
+        $invoiceItemsError = [];
+        $hasError = false;
+        
+        // 明細のバリデーション
+        $rules = [
+            'product_id'    => 'required|exists:products,id',
+            'quantity'      => 'required|numeric|max:999999.99',
+            'amount'        => 'required|numeric',
+            'remarks'       => 'max:50',
+        ];
+
+        foreach ($invoiceItemsInput as $item) {
+            $validator = Validator::make($item, $rules);
+            if ($validator->fails()) {
+                $hasError = true;
+            }
+            $errors = $validator->errors();
+            $errors->add('item_id', $item['item_id']);  // 重複しないようにする。
+            $invoiceItemsError[] = $errors;
+        }
+
+        if ($hasError) {
+            throw ValidationException::withMessages(array('items' => $invoiceItemsError));
+        }
+
+        // 更新処理
         $invoice->update($request->all());
 
         InvoiceItem::where('invoice_id', $invoice->id)->delete();
-        $invoiceItemsInput = $request->items;
         foreach ($invoiceItemsInput as $item) {
             InvoiceItem::create($item);
         }

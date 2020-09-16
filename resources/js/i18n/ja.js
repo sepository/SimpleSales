@@ -18,6 +18,7 @@ export default {
     },
     notify: {
       saved: "保存しました。",
+      error: "エラーがあります。",
     },
   },
 

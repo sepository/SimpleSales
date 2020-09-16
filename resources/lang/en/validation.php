@@ -157,6 +157,8 @@ return [
         'payment_due_date'  => 'Payment Due Date',
         'postal_code'       => 'Postal Code',
         'price'             => 'Price',
+        'product_id'        => 'Product',
+        'quantity'          => 'Quantity',
         'remarks'           => 'Remarks',
         'summary'           => 'Summary',
         'tel_no'            => 'Phone No.',
