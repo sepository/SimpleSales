@@ -3,4 +3,18 @@
         "editor.tabSize": 2,
         "editor.insertSpaces": true
     },
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "database",
+            "database": "./database/database.sqlite"
+        },
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "database_test",
+            "database": "./database/database_test.sqlite"
+        }
+    ],
 }
