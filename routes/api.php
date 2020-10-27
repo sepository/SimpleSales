@@ -17,7 +17,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 // 言語切り替え
-Route::post('/locale/{locale}', 'LocaleController@setLocale');
+Route::group(['middleware' => ['web']], function() {
+    Route::post('/locale/{locale}', 'LocaleController@setLocale');
+});
 
 // 認証済ユーザ取得
 Route::get('/user', function(Request $request) {
@@ -62,7 +64,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('/invoice/{invoice}', 'InvoiceController@show');
     Route::put('/invoice/{invoice}', 'InvoiceController@update');
 });
- 
+
 // 認証必須且つ管理者専用機能
 Route::middleware('auth:sanctum', 'can:admin-only')->group(function() {
     // ユーザ
