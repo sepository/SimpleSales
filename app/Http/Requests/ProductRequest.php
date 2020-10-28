@@ -23,10 +23,21 @@ class ProductRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        return $this->getRules($this->all());
+    }
+
+    public function getRules($data)
+    {
+        $rules = [
             'name'      => 'required|max:100',
             'price'     => 'required|numeric|max:9999999',
             'summary'   => 'max:300',
         ];
+
+        if ($data['unit_id']) {
+            $rules['unit_id'] = 'exists:units,id';
+        }
+
+        return $rules;
     }
 }
