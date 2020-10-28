@@ -11,7 +11,7 @@ abstract class TestCase extends BaseTestCase
 
     protected $authEmail = 'test@example.co.jp';
 
-    protected function authorize()
+    protected function authorize($isAdmin = 0)
     {
         factory(User::class)->create([
             'email' => $this->authEmail,
@@ -20,6 +20,7 @@ abstract class TestCase extends BaseTestCase
         $this->post('/api/login', [
             'email' => $this->authEmail,
             'password' => 'password',
+            'is_admin' => $isAdmin,
         ]);
     }
 }
